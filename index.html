@@ -596,7 +596,10 @@
   <div class="topbar-actions">
     
     
+    
+    
   </div>
+  
 </div>
 
 <!-- LAYOUT -->
@@ -607,7 +610,10 @@
       <h3>Catégories</h3>
       <div id="tag-filters"><button class="tag-filter active" onclick="setTagFilter(null)">Tout</button><button class="tag-filter" style="" onclick="setTagFilter('notes')">notes</button><button class="tag-filter" style="" onclick="setTagFilter('dev')">dev</button><button class="tag-filter" style="" onclick="setTagFilter('lecture')">lecture</button></div>
     </div>
-    <div id="pages-list"><div class="page-item active" onclick="openPage('p1782512437334')">
+    <div id="pages-list"><div class="page-item" onclick="openPage('p1782514631183')">
+      <div class="pi-title">PowerShell - Audit système</div>
+      <div class="pi-meta"><span>27 juin</span></div>
+    </div><div class="page-item" onclick="openPage('p1782512437334')">
       <div class="pi-title">PowerShell - Dépannage système</div>
       <div class="pi-meta"><span>27 juin</span></div>
     </div><div class="page-item" onclick="openPage('p1')">
@@ -627,10 +633,10 @@
     <!-- CONTENT AREA -->
     <div id="content-area">
       <!-- PAGE HEADER -->
-      <div id="page-header" style="">
+      <div id="page-header" style="display:none">
         <div id="page-title-wrap">
-          <div id="page-title">PowerShell - Dépannage système</div>
-          <input type="text" id="page-title-input" placeholder="Titre de la page…" style="display: none;">
+          <div id="page-title"></div>
+          <input type="text" id="page-title-input" placeholder="Titre de la page…">
           <div id="page-actions">
             
             
@@ -639,7 +645,7 @@
           </div>
         </div>
         <div id="page-meta">
-          <span id="page-date">27 juin 2026</span>
+          <span id="page-date"></span>
           <span id="page-tags"></span>
         </div>
       </div>
@@ -648,25 +654,16 @@
       <div id="view-edit-wrap">
         <!-- VIEW MODE -->
         <div id="page-view">
-          <div id="empty-state" style="display: none;">
+          <div id="empty-state">
             <div class="es-icon">📄</div>
             <h2>Votre wiki personnel</h2>
             <p>Sélectionnez une page dans la barre latérale, ou créez votre première note avec <strong>+ Nouvelle page</strong>.</p>
           </div>
-          <div class="wiki-content" id="wiki-body" style=""><h1 id="powershell-d-pannage-syst-me">PowerShell - Dépannage système</h1>
-<h2 id="commande-de-base-pour-le-scan-et-la-r-paration-syst-me-">Commande de base pour le scan et la réparation système.</h2>
-<p>Vérificateur de fichiers système pour analyser Windows et restaurer les fichiers</p>
-<pre><code>sfc /scannow</code></pre>
-<p>Analysez l’image Windows pour déterminer si elle est endommagée.</p>
-<pre><code>DISM /Online /Cleanup-Image /ScanHealth</code></pre>
-<p>Vérifie si l’image Windows est saine, réparable ou non réparable.</p>
-<pre><code>Dism /Online /Cleanup-Image /CheckHealth</code></pre>
-<p>Réparer les fichiers système de Windows</p>
-<pre><code>DISM /Online /Cleanup-Image /RestoreHealth</code></pre></div>
+          <div class="wiki-content" id="wiki-body" style="display:none"></div>
         </div>
 
         <!-- EDITOR MODE -->
-        <div id="editor-wrap" style="display: none;">
+        <div id="editor-wrap">
           <div id="editor-toolbar">
             <button class="ed-btn" onclick="edInsert('# ','')">H1</button>
             <button class="ed-btn" onclick="edInsert('## ','')">H2</button>
@@ -688,7 +685,7 @@
             <button class="ed-btn" onclick="edInsert('::: warn\n',':::')">⚠️ Alerte</button>
           </div>
           <textarea id="editor" spellcheck="true" placeholder="Écrivez en Markdown…"></textarea>
-          <div id="tag-editor" class="">
+          <div id="tag-editor" class="visible">
             <label>Tags :</label>
             <input type="text" id="tag-input" placeholder="dev, notes, recherche…">
           </div>
@@ -699,11 +696,7 @@
     <!-- TOC PANEL -->
     <div id="toc-panel">
       <h4>Sur cette page</h4>
-      <div id="toc-items">
-    <a class="toc-item toc-h1" onclick="scrollTo('powershell-d-pannage-syst-me')" title="PowerShell - Dépannage système">PowerShell - Dépannage système</a>
-  
-    <a class="toc-item toc-h2" onclick="scrollTo('commande-de-base-pour-le-scan-et-la-r-paration-syst-me-')" title="Commande de base pour le scan et la réparation système.">Commande de base pour le scan et la réparation système.</a>
-  </div>
+      <div id="toc-items"></div>
     </div>
   </div>
 </div>
@@ -722,7 +715,7 @@
 </div>
 
 <!-- NOTIF -->
-<div id="notif"></div>
+<div id="notif" class="success">Sauvegarde JSON téléchargée !</div>
 
 <script>
 // ---- DATA ----
@@ -744,9 +737,7 @@ let editing = false;
 let activeTagFilter = null;
 
 function load(){
-  pages = [{"id":"p1782512437334","title":"PowerShell - Dépannage système","tags":[],"date":"2026-06-26T22:24:36.859Z","body":"# PowerShell - Dépannage système\n\n## Commande de base pour le scan et la réparation système.\n\nVérificateur de fichiers système pour analyser Windows et restaurer les fichiers \n\n```\nsfc /scannow \n```\n\nAnalysez l’image Windows pour déterminer si elle est endommagée.\n\n```\nDISM /Online /Cleanup-Image /ScanHealth\n```\n\nVérifie si l’image Windows est saine, réparable ou non réparable.\n\n```\nDism /Online /Cleanup-Image /CheckHealth\n```\n\nRéparer les fichiers système de Windows\n\n```\nDISM /Online /Cleanup-Image /RestoreHealth\n``` "},{"id":"p1","title":"Bienvenue dans votre Wiki","tags":["notes"],"date":"2026-06-26T22:18:44.483Z","body":"# Bienvenue 👋\n\nCe wiki personnel est entièrement stocké dans votre navigateur (localStorage). Vous pouvez l'exporter ou le publier facilement.\n\n## Fonctionnalités\n\n- **Recherche** dans toutes les pages (barre du haut)\n- **Éditeur Markdown** intégré avec barre d'outils\n- **Sommaire automatique** (panneau de droite)\n- **Tags & filtres** par catégorie\n- Fonctionne **hors-ligne**, aucun serveur requis\n\n## Markdown supporté\n\n### Texte basique\n\n*Italique*, **gras**, `code inline`.\n\n> Blockquote pour mettre en valeur une citation ou une note importante.\n\n### Code\n\n```\nfunction hello() {\n  console.log(\"Bonjour le monde !\");\n}\n```\n\n### Tableau\n\n| Raccourci | Action |\n|---|---|\n| Cliquer ✏️ | Modifier la page |\n| Ctrl+S | Enregistrer |\n\n---\n\nBonne prise de notes !"},{"id":"p2","title":"Ressources de développement","tags":["dev"],"date":"2026-06-26T22:18:44.483Z","body":"# Ressources dev\n\nUne collection de liens et d'outils utiles.\n\n## Outils incontournables\n\n- [MDN Web Docs](https://developer.mozilla.org) — Référence HTML/CSS/JS\n- [Can I Use](https://caniuse.com) — Compatibilité navigateurs\n- [Regex101](https://regex101.com) — Tester les expressions régulières\n\n## Snippets Python\n\n```\n# Lire un fichier JSON\nimport json\nwith open('data.json') as f:\n    data = json.load(f)\n```\n\n## Notes Git\n\n| Commande | Usage |\n|---|---|\n| git stash | Mettre de côté les changements |\n| git log --oneline | Historique compact |\n| git cherry-pick <hash> | Appliquer un commit précis |"},{"id":"p3","title":"Lectures en cours","tags":["lecture","notes"],"date":"2026-06-26T22:18:44.483Z","body":"# Lectures en cours\n\n## En ce moment\n\n**Deep Work** — Cal Newport\n\n> La capacité de se concentrer sans distraction sur une tâche cognitivement exigeante est devenue de plus en plus rare.\n\nNotes : Bloquer des créneaux fixes dans le calendrier. Fermer les notifications. Mesurer les heures de travail profond par semaine.\n\n## File d'attente\n\n- *L'Homme qui prenait sa femme pour un chapeau* — Oliver Sacks\n- *Thinking, Fast and Slow* — Daniel Kahneman\n- *Clean Code* — Robert C. Martin\n\n## Terminé ✓\n\n- **Le Mythe de Sisyphe** — Albert Camus — ⭐⭐⭐⭐⭐"}];
-  render();
-}
+  try { pages = JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]'); }
   catch(e){ pages = []; }
   if(!pages.length) pages = getSamplePages();
   render();
@@ -923,9 +914,12 @@ function openPage(id, scroll=true){
   }).join('');
   document.getElementById('page-tags').innerHTML = tagsHtml;
 
-  document.getElementById('btn-edit').style.display='';
-  document.getElementById('btn-save').style.display='none';
-  document.getElementById('btn-cancel').style.display='none';
+  const btnEdit = document.getElementById('btn-edit');
+  const btnSave = document.getElementById('btn-save');
+  const btnCancel = document.getElementById('btn-cancel');
+  if(btnEdit) btnEdit.style.display='';
+  if(btnSave) btnSave.style.display='none';
+  if(btnCancel) btnCancel.style.display='none';
 
   document.getElementById('empty-state').style.display='none';
   document.getElementById('wiki-body').style.display='';
@@ -1176,65 +1170,107 @@ function notify(msg, type=''){
   el._t = setTimeout(()=>el.classList.remove('show'),2200);
 }
 
-// ---- EXPORT STATIQUE ----
-function exportStatic(){
-  // Reconstruit le HTML complet avec les pages figées dedans,
-  // sans le bouton export ni les boutons d'édition
-  const snapshot = JSON.stringify(pages);
-
-  // On prend le source de la page courante
-  let src = document.documentElement.outerHTML;
-
-  // 1. Masquer le bouton export dans la version publiée
-  src = src.replace(/<button[^>]*id="btn-export"[^>]*>.*?<\/button>/s, '');
-
-  // 2. Masquer les boutons d'édition et de suppression
-  src = src.replace(/<button[^>]*id="btn-edit"[^>]*>.*?<\/button>/s, '');
-  src = src.replace(/<button[^>]*id="btn-save"[^>]*>.*?<\/button>/s, '');
-  src = src.replace(/<button[^>]*id="btn-cancel"[^>]*>.*?<\/button>/s, '');
-  src = src.replace(/<button[^>]*id="btn-delete"[^>]*>.*?<\/button>/s, '');
-  src = src.replace(/<button[^>]*id="mobile-menu-btn"[^>]*>.*?<\/button>/s, '');
-
-  // 3. Masquer la barre d'outil nouvelle page
-  src = src.replace(/<button[^>]*onclick="newPage\(\)"[^>]*>.*?<\/button>/s, '');
-
-  // 4. Injecter les données figées : on remplace la fonction load()
-  // pour qu'elle utilise les données embarquées au lieu du localStorage
-  src = src.replace(
-    /function load\(\)\{[\s\S]*?\}/,
-    `function load(){
-  pages = ${snapshot};
-  render();
-}`
-  );
-
-  // 5. Désactiver les fonctions d'écriture (save, enterEdit, deletePage, newPage)
-  src = src.replace(
-    /\/\/ ---- INIT ----/,
-    `// Version publiée — édition désactivée
-function enterEdit(){}
-function savePage(){}
-function deletePage(){}
-function newPage(){}
-function exportStatic(){ alert('Fonction non disponible dans la version publiée.'); }
-// Version publiée — édition désactivée
-function enterEdit(){}
-function savePage(){}
-function deletePage(){}
-function newPage(){}
-function exportStatic(){ alert('Fonction non disponible dans la version publiée.'); }
-// ---- INIT ----`
-  );
-
-  // Téléchargement
-  const blob = new Blob([src], {type:'text/html;charset=utf-8'});
+// ---- EXPORT JSON (sauvegarde) ----
+function exportJSON(){
+  const data = { version: 1, exported: new Date().toISOString(), pages };
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'index.html';
+  const date = new Date().toISOString().slice(0,10);
+  a.download = `senutils-wiki-${date}.json`;
   a.click();
   URL.revokeObjectURL(url);
-  notify('Fichier index.html téléchargé !', 'success');
+  notify('Sauvegarde JSON téléchargée !', 'success');
+}
+
+// ---- IMPORT JSON (restauration) ----
+function importJSON(){
+  document.getElementById('file-import').value = '';
+  document.getElementById('file-import').click();
+}
+function handleImport(e){
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = evt => {
+    try {
+      const data = JSON.parse(evt.target.result);
+      const imported = data.pages || data;
+      if(!Array.isArray(imported) || !imported[0]?.title) throw new Error('Format invalide');
+      if(!confirm(`Importer ${imported.length} page(s) ?\nCela remplacera toutes vos pages actuelles.`)) return;
+      pages = imported;
+      save();
+      currentId = null;
+      render();
+      document.getElementById('page-header').style.display='none';
+      document.getElementById('empty-state').style.display='flex';
+      document.getElementById('wiki-body').style.display='none';
+      document.getElementById('toc-items').innerHTML='';
+      notify(`${imported.length} page(s) importée(s) !`, 'success');
+    } catch(err) {
+      notify('Fichier JSON invalide', 'error');
+    }
+  };
+  reader.readAsText(file);
+}
+
+// ---- EXPORT STATIQUE (publication HTML + JSON) ----
+function exportStatic(){
+  const snapshot = JSON.stringify(pages);
+  let src = document.documentElement.outerHTML;
+
+  // Supprimer boutons réservés à l'édition
+  ['btn-export','btn-import-json','btn-export-json','btn-edit','btn-save','btn-cancel','btn-delete','mobile-menu-btn'].forEach(id => {
+    src = src.replace(new RegExp(`<button[^>]*id="${id}"[^>]*>[\\s\\S]*?<\\/button>`, 'g'), '');
+  });
+  src = src.replace(/<button[^>]*onclick="newPage\(\)"[^>]*>[\s\S]*?<\/button>/g, '');
+  src = src.replace(/<input[^>]*id="file-import"[^>]*>/g, '');
+
+  // Injecter les données et désactiver l'écriture juste avant load()
+  src = src.replace(
+    /\/\/ ---- INIT ----\s*\nload\(\);/,
+    `// ---- VERSION PUBLIÉE ----
+const _PUBLISHED_PAGES = ${snapshot};
+function load(){ pages = JSON.parse(JSON.stringify(_PUBLISHED_PAGES)); render(); if(pages.length) openPage(pages[0].id); }
+function enterEdit(){}
+function savePage(){}
+function deletePage(){}
+function newPage(){}
+function exportStatic(){}
+function exportJSON(){}
+function importJSON(){}
+// ---- VERSION PUBLIÉE ----
+const _PUBLISHED_PAGES = [{"id":"p1782514631183","title":"PowerShell - Audit système","tags":[],"date":"2026-06-26T22:58:37.162Z","body":"# PowerShell - Audit système\n\nObtenir sa version de PowerShell\n\n```\n$PSVersionTable ```\n\nObtenir la version de Windows. \n\n```\n(Get-WmiObject -class Win32_OperatingSystem).Caption ```"},{"id":"p1782512437334","title":"PowerShell - Dépannage système","tags":[],"date":"2026-06-26T23:01:01.399Z","body":"# PowerShell - Dépannage système\n\n## Commande de base pour le scan et la réparation système.\n\nVérificateur de fichiers système pour analyser Windows et restaurer les fichiers \n\n```\nsfc /scannow ```\n\nAnalysez l’image Windows pour déterminer si elle est endommagée.\n\n```\nDISM /Online /Cleanup-Image /ScanHealth```\n\nVérifie si l’image Windows est saine, réparable ou non réparable.\n\n```\nDism /Online /Cleanup-Image /CheckHealth```\n\nRéparer les fichiers système de Windows\n\n```\nDISM /Online /Cleanup-Image /RestoreHealth``` \n\nVérifie l’intégrité et répare les erreurs disque (analyse profonde) - Reboot nécessaire !\n\n```\nchkdsk c: /F /R ```"},{"id":"p1","title":"Bienvenue dans votre Wiki","tags":["notes"],"date":"2026-06-26T22:18:44.483Z","body":"# Bienvenue 👋\n\nCe wiki personnel est entièrement stocké dans votre navigateur (localStorage). Vous pouvez l'exporter ou le publier facilement.\n\n## Fonctionnalités\n\n- **Recherche** dans toutes les pages (barre du haut)\n- **Éditeur Markdown** intégré avec barre d'outils\n- **Sommaire automatique** (panneau de droite)\n- **Tags & filtres** par catégorie\n- Fonctionne **hors-ligne**, aucun serveur requis\n\n## Markdown supporté\n\n### Texte basique\n\n*Italique*, **gras**, `code inline`.\n\n> Blockquote pour mettre en valeur une citation ou une note importante.\n\n### Code\n\n```\nfunction hello() {\n  console.log(\"Bonjour le monde !\");\n}\n```\n\n### Tableau\n\n| Raccourci | Action |\n|---|---|\n| Cliquer ✏️ | Modifier la page |\n| Ctrl+S | Enregistrer |\n\n---\n\nBonne prise de notes !"},{"id":"p2","title":"Ressources de développement","tags":["dev"],"date":"2026-06-26T22:18:44.483Z","body":"# Ressources dev\n\nUne collection de liens et d'outils utiles.\n\n## Outils incontournables\n\n- [MDN Web Docs](https://developer.mozilla.org) — Référence HTML/CSS/JS\n- [Can I Use](https://caniuse.com) — Compatibilité navigateurs\n- [Regex101](https://regex101.com) — Tester les expressions régulières\n\n## Snippets Python\n\n```\n# Lire un fichier JSON\nimport json\nwith open('data.json') as f:\n    data = json.load(f)\n```\n\n## Notes Git\n\n| Commande | Usage |\n|---|---|\n| git stash | Mettre de côté les changements |\n| git log --oneline | Historique compact |\n| git cherry-pick <hash> | Appliquer un commit précis |"},{"id":"p3","title":"Lectures en cours","tags":["lecture","notes"],"date":"2026-06-26T22:18:44.483Z","body":"# Lectures en cours\n\n## En ce moment\n\n**Deep Work** — Cal Newport\n\n> La capacité de se concentrer sans distraction sur une tâche cognitivement exigeante est devenue de plus en plus rare.\n\nNotes : Bloquer des créneaux fixes dans le calendrier. Fermer les notifications. Mesurer les heures de travail profond par semaine.\n\n## File d'attente\n\n- *L'Homme qui prenait sa femme pour un chapeau* — Oliver Sacks\n- *Thinking, Fast and Slow* — Daniel Kahneman\n- *Clean Code* — Robert C. Martin\n\n## Terminé ✓\n\n- **Le Mythe de Sisyphe** — Albert Camus — ⭐⭐⭐⭐⭐"}];
+function load(){ pages = JSON.parse(JSON.stringify(_PUBLISHED_PAGES)); render(); if(pages.length) openPage(pages[0].id); }
+function enterEdit(){}
+function savePage(){}
+function deletePage(){}
+function newPage(){}
+function exportStatic(){}
+function exportJSON(){}
+function importJSON(){}
+// ---- INIT ----
+load();`
+  );
+
+  // Télécharger le HTML
+  dl(new Blob([src],{type:'text/html;charset=utf-8'}), 'index.html');
+
+  // Télécharger aussi le JSON de sauvegarde (léger délai pour ne pas bloquer)
+  setTimeout(()=>{
+    const data = { version:1, exported: new Date().toISOString(), pages };
+    const date = new Date().toISOString().slice(0,10);
+    dl(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}), `senutils-wiki-${date}.json`);
+    notify('HTML publié + sauvegarde JSON téléchargés !', 'success');
+  }, 400);
+}
+
+function dl(blob, filename){
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename; a.click();
+  URL.revokeObjectURL(url);
 }
 
 // ---- INIT ----
