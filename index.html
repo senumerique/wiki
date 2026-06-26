@@ -2,6 +2,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Senutils — Wiki</title>
+<script id="wiki-data">window._WIKI_PUBLISHED = [{"id":"p1782514631183","title":"PowerShell - Audit système","tags":[],"date":"2026-06-26T22:58:37.162Z","body":"# PowerShell - Audit système\n\nObtenir sa version de PowerShell\n\n```\n$PSVersionTable ```\n\nObtenir la version de Windows. \n\n```\n(Get-WmiObject -class Win32_OperatingSystem).Caption ```"},{"id":"p1782512437334","title":"PowerShell - Dépannage système","tags":[],"date":"2026-06-26T23:01:01.399Z","body":"# PowerShell - Dépannage système\n\n## Commande de base pour le scan et la réparation système.\n\nVérificateur de fichiers système pour analyser Windows et restaurer les fichiers \n\n```\nsfc /scannow ```\n\nAnalysez l’image Windows pour déterminer si elle est endommagée.\n\n```\nDISM /Online /Cleanup-Image /ScanHealth```\n\nVérifie si l’image Windows est saine, réparable ou non réparable.\n\n```\nDism /Online /Cleanup-Image /CheckHealth```\n\nRéparer les fichiers système de Windows\n\n```\nDISM /Online /Cleanup-Image /RestoreHealth``` \n\nVérifie l’intégrité et répare les erreurs disque (analyse profonde) - Reboot nécessaire !\n\n```\nchkdsk c: /F /R ```"},{"id":"p1","title":"Bienvenue dans votre Wiki","tags":["notes"],"date":"2026-06-26T22:18:44.483Z","body":"# Bienvenue 👋\n\nCe wiki personnel est entièrement stocké dans votre navigateur (localStorage). Vous pouvez l'exporter ou le publier facilement.\n\n## Fonctionnalités\n\n- **Recherche** dans toutes les pages (barre du haut)\n- **Éditeur Markdown** intégré avec barre d'outils\n- **Sommaire automatique** (panneau de droite)\n- **Tags & filtres** par catégorie\n- Fonctionne **hors-ligne**, aucun serveur requis\n\n## Markdown supporté\n\n### Texte basique\n\n*Italique*, **gras**, `code inline`.\n\n> Blockquote pour mettre en valeur une citation ou une note importante.\n\n### Code\n\n```\nfunction hello() {\n  console.log(\"Bonjour le monde !\");\n}\n```\n\n### Tableau\n\n| Raccourci | Action |\n|---|---|\n| Cliquer ✏️ | Modifier la page |\n| Ctrl+S | Enregistrer |\n\n---\n\nBonne prise de notes !"},{"id":"p2","title":"Ressources de développement","tags":["dev"],"date":"2026-06-26T22:18:44.483Z","body":"# Ressources dev\n\nUne collection de liens et d'outils utiles.\n\n## Outils incontournables\n\n- [MDN Web Docs](https://developer.mozilla.org) — Référence HTML/CSS/JS\n- [Can I Use](https://caniuse.com) — Compatibilité navigateurs\n- [Regex101](https://regex101.com) — Tester les expressions régulières\n\n## Snippets Python\n\n```\n# Lire un fichier JSON\nimport json\nwith open('data.json') as f:\n    data = json.load(f)\n```\n\n## Notes Git\n\n| Commande | Usage |\n|---|---|\n| git stash | Mettre de côté les changements |\n| git log --oneline | Historique compact |\n| git cherry-pick <hash> | Appliquer un commit précis |"},{"id":"p3","title":"Lectures en cours","tags":["lecture","notes"],"date":"2026-06-26T22:18:44.483Z","body":"# Lectures en cours\n\n## En ce moment\n\n**Deep Work** — Cal Newport\n\n> La capacité de se concentrer sans distraction sur une tâche cognitivement exigeante est devenue de plus en plus rare.\n\nNotes : Bloquer des créneaux fixes dans le calendrier. Fermer les notifications. Mesurer les heures de travail profond par semaine.\n\n## File d'attente\n\n- *L'Homme qui prenait sa femme pour un chapeau* — Oliver Sacks\n- *Thinking, Fast and Slow* — Daniel Kahneman\n- *Clean Code* — Robert C. Martin\n\n## Terminé ✓\n\n- **Le Mythe de Sisyphe** — Albert Camus — ⭐⭐⭐⭐⭐"}];</script>
 <style>
   :root {
     --bg: #0d1117;
@@ -619,7 +620,7 @@
     </div><div class="page-item" onclick="openPage('p1')">
       <div class="pi-title">Bienvenue dans votre Wiki</div>
       <div class="pi-meta"><span class="pi-tag" style="background:#1e2a1e;color:#3fb950">notes</span><span>27 juin</span></div>
-    </div><div class="page-item" onclick="openPage('p2')">
+    </div><div class="page-item active" onclick="openPage('p2')">
       <div class="pi-title">Ressources de développement</div>
       <div class="pi-meta"><span class="pi-tag" style="background:#1f3355;color:#58a6ff">dev</span><span>27 juin</span></div>
     </div><div class="page-item" onclick="openPage('p3')">
@@ -633,10 +634,10 @@
     <!-- CONTENT AREA -->
     <div id="content-area">
       <!-- PAGE HEADER -->
-      <div id="page-header" style="display:none">
+      <div id="page-header" style="">
         <div id="page-title-wrap">
-          <div id="page-title"></div>
-          <input type="text" id="page-title-input" placeholder="Titre de la page…">
+          <div id="page-title">Ressources de développement</div>
+          <input type="text" id="page-title-input" placeholder="Titre de la page…" style="display: none;">
           <div id="page-actions">
             
             
@@ -645,8 +646,8 @@
           </div>
         </div>
         <div id="page-meta">
-          <span id="page-date"></span>
-          <span id="page-tags"></span>
+          <span id="page-date">27 juin 2026</span>
+          <span id="page-tags"><span class="tag-badge" style="background:#1f3355;color:#58a6ff">dev</span></span>
         </div>
       </div>
 
@@ -654,16 +655,26 @@
       <div id="view-edit-wrap">
         <!-- VIEW MODE -->
         <div id="page-view">
-          <div id="empty-state">
+          <div id="empty-state" style="display: none;">
             <div class="es-icon">📄</div>
             <h2>Votre wiki personnel</h2>
             <p>Sélectionnez une page dans la barre latérale, ou créez votre première note avec <strong>+ Nouvelle page</strong>.</p>
           </div>
-          <div class="wiki-content" id="wiki-body" style="display:none"></div>
+          <div class="wiki-content" id="wiki-body" style=""><h1 id="ressources-dev">Ressources dev</h1>
+<p>Une collection de liens et d'outils utiles.</p>
+<h2 id="outils-incontournables">Outils incontournables</h2>
+<ul><li><a href="https://developer.mozilla.org" target="_blank" rel="noopener">MDN Web Docs</a> — Référence HTML/CSS/JS</li><li><a href="https://caniuse.com" target="_blank" rel="noopener">Can I Use</a> — Compatibilité navigateurs</li><li><a href="https://regex101.com" target="_blank" rel="noopener">Regex101</a> — Tester les expressions régulières</li></ul>
+<h2 id="snippets-python">Snippets Python</h2>
+<pre><code># Lire un fichier JSON
+import json
+with open('data.json') as f:
+    data = json.load(f)</code></pre>
+<h2 id="notes-git">Notes Git</h2>
+<table><tbody><tr><th>Commande</th><th>Usage</th></tr><tr><td>git stash</td><td>Mettre de côté les changements</td></tr><tr><td>git log --oneline</td><td>Historique compact</td></tr><tr><td>git cherry-pick &lt;hash&gt;</td><td>Appliquer un commit précis</td></tr></tbody></table></div>
         </div>
 
         <!-- EDITOR MODE -->
-        <div id="editor-wrap">
+        <div id="editor-wrap" style="display: none;">
           <div id="editor-toolbar">
             <button class="ed-btn" onclick="edInsert('# ','')">H1</button>
             <button class="ed-btn" onclick="edInsert('## ','')">H2</button>
@@ -685,7 +696,7 @@
             <button class="ed-btn" onclick="edInsert('::: warn\n',':::')">⚠️ Alerte</button>
           </div>
           <textarea id="editor" spellcheck="true" placeholder="Écrivez en Markdown…"></textarea>
-          <div id="tag-editor" class="visible">
+          <div id="tag-editor" class="">
             <label>Tags :</label>
             <input type="text" id="tag-input" placeholder="dev, notes, recherche…">
           </div>
@@ -696,7 +707,15 @@
     <!-- TOC PANEL -->
     <div id="toc-panel">
       <h4>Sur cette page</h4>
-      <div id="toc-items"></div>
+      <div id="toc-items">
+    <a class="toc-item toc-h1" onclick="scrollTo('ressources-dev')" title="Ressources dev">Ressources dev</a>
+  
+    <a class="toc-item toc-h2" onclick="scrollTo('outils-incontournables')" title="Outils incontournables">Outils incontournables</a>
+  
+    <a class="toc-item toc-h2" onclick="scrollTo('snippets-python')" title="Snippets Python">Snippets Python</a>
+  
+    <a class="toc-item toc-h2" onclick="scrollTo('notes-git')" title="Notes Git">Notes Git</a>
+  </div>
     </div>
   </div>
 </div>
@@ -715,7 +734,7 @@
 </div>
 
 <!-- NOTIF -->
-<div id="notif" class="success">Sauvegarde JSON téléchargée !</div>
+<div id="notif"></div>
 
 <script>
 // ---- DATA ----
@@ -737,6 +756,12 @@ let editing = false;
 let activeTagFilter = null;
 
 function load(){
+  if(window._WIKI_PUBLISHED){
+    pages = window._WIKI_PUBLISHED;
+    render();
+    if(pages.length) openPage(pages[0].id);
+    return;
+  }
   try { pages = JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]'); }
   catch(e){ pages = []; }
   if(!pages.length) pages = getSamplePages();
@@ -1220,48 +1245,27 @@ function exportStatic(){
   const snapshot = JSON.stringify(pages);
   let src = document.documentElement.outerHTML;
 
-  // Supprimer boutons réservés à l'édition
+  // 1. Injecter les données dans la balise dédiée — remplacement ciblé et fiable
+  src = src.replace(
+    /<script id="wiki-data">[\s\S]*?<\/script>/,
+    `<script id="wiki-data">window._WIKI_PUBLISHED = ${snapshot};<\/script>`
+  );
+
+  // 2. Supprimer les boutons réservés à l'édition
   ['btn-export','btn-import-json','btn-export-json','btn-edit','btn-save','btn-cancel','btn-delete','mobile-menu-btn'].forEach(id => {
     src = src.replace(new RegExp(`<button[^>]*id="${id}"[^>]*>[\\s\\S]*?<\\/button>`, 'g'), '');
   });
   src = src.replace(/<button[^>]*onclick="newPage\(\)"[^>]*>[\s\S]*?<\/button>/g, '');
   src = src.replace(/<input[^>]*id="file-import"[^>]*>/g, '');
 
-  // Injecter les données et désactiver l'écriture juste avant load()
-  src = src.replace(
-    /\/\/ ---- INIT ----\s*\nload\(\);/,
-    `// ---- VERSION PUBLIÉE ----
-const _PUBLISHED_PAGES = ${snapshot};
-function load(){ pages = JSON.parse(JSON.stringify(_PUBLISHED_PAGES)); render(); if(pages.length) openPage(pages[0].id); }
-function enterEdit(){}
-function savePage(){}
-function deletePage(){}
-function newPage(){}
-function exportStatic(){}
-function exportJSON(){}
-function importJSON(){}
-// ---- VERSION PUBLIÉE ----
-const _PUBLISHED_PAGES = [{"id":"p1782514631183","title":"PowerShell - Audit système","tags":[],"date":"2026-06-26T22:58:37.162Z","body":"# PowerShell - Audit système\n\nObtenir sa version de PowerShell\n\n```\n$PSVersionTable ```\n\nObtenir la version de Windows. \n\n```\n(Get-WmiObject -class Win32_OperatingSystem).Caption ```"},{"id":"p1782512437334","title":"PowerShell - Dépannage système","tags":[],"date":"2026-06-26T23:01:01.399Z","body":"# PowerShell - Dépannage système\n\n## Commande de base pour le scan et la réparation système.\n\nVérificateur de fichiers système pour analyser Windows et restaurer les fichiers \n\n```\nsfc /scannow ```\n\nAnalysez l’image Windows pour déterminer si elle est endommagée.\n\n```\nDISM /Online /Cleanup-Image /ScanHealth```\n\nVérifie si l’image Windows est saine, réparable ou non réparable.\n\n```\nDism /Online /Cleanup-Image /CheckHealth```\n\nRéparer les fichiers système de Windows\n\n```\nDISM /Online /Cleanup-Image /RestoreHealth``` \n\nVérifie l’intégrité et répare les erreurs disque (analyse profonde) - Reboot nécessaire !\n\n```\nchkdsk c: /F /R ```"},{"id":"p1","title":"Bienvenue dans votre Wiki","tags":["notes"],"date":"2026-06-26T22:18:44.483Z","body":"# Bienvenue 👋\n\nCe wiki personnel est entièrement stocké dans votre navigateur (localStorage). Vous pouvez l'exporter ou le publier facilement.\n\n## Fonctionnalités\n\n- **Recherche** dans toutes les pages (barre du haut)\n- **Éditeur Markdown** intégré avec barre d'outils\n- **Sommaire automatique** (panneau de droite)\n- **Tags & filtres** par catégorie\n- Fonctionne **hors-ligne**, aucun serveur requis\n\n## Markdown supporté\n\n### Texte basique\n\n*Italique*, **gras**, `code inline`.\n\n> Blockquote pour mettre en valeur une citation ou une note importante.\n\n### Code\n\n```\nfunction hello() {\n  console.log(\"Bonjour le monde !\");\n}\n```\n\n### Tableau\n\n| Raccourci | Action |\n|---|---|\n| Cliquer ✏️ | Modifier la page |\n| Ctrl+S | Enregistrer |\n\n---\n\nBonne prise de notes !"},{"id":"p2","title":"Ressources de développement","tags":["dev"],"date":"2026-06-26T22:18:44.483Z","body":"# Ressources dev\n\nUne collection de liens et d'outils utiles.\n\n## Outils incontournables\n\n- [MDN Web Docs](https://developer.mozilla.org) — Référence HTML/CSS/JS\n- [Can I Use](https://caniuse.com) — Compatibilité navigateurs\n- [Regex101](https://regex101.com) — Tester les expressions régulières\n\n## Snippets Python\n\n```\n# Lire un fichier JSON\nimport json\nwith open('data.json') as f:\n    data = json.load(f)\n```\n\n## Notes Git\n\n| Commande | Usage |\n|---|---|\n| git stash | Mettre de côté les changements |\n| git log --oneline | Historique compact |\n| git cherry-pick <hash> | Appliquer un commit précis |"},{"id":"p3","title":"Lectures en cours","tags":["lecture","notes"],"date":"2026-06-26T22:18:44.483Z","body":"# Lectures en cours\n\n## En ce moment\n\n**Deep Work** — Cal Newport\n\n> La capacité de se concentrer sans distraction sur une tâche cognitivement exigeante est devenue de plus en plus rare.\n\nNotes : Bloquer des créneaux fixes dans le calendrier. Fermer les notifications. Mesurer les heures de travail profond par semaine.\n\n## File d'attente\n\n- *L'Homme qui prenait sa femme pour un chapeau* — Oliver Sacks\n- *Thinking, Fast and Slow* — Daniel Kahneman\n- *Clean Code* — Robert C. Martin\n\n## Terminé ✓\n\n- **Le Mythe de Sisyphe** — Albert Camus — ⭐⭐⭐⭐⭐"}];
-function load(){ pages = JSON.parse(JSON.stringify(_PUBLISHED_PAGES)); render(); if(pages.length) openPage(pages[0].id); }
-function enterEdit(){}
-function savePage(){}
-function deletePage(){}
-function newPage(){}
-function exportStatic(){}
-function exportJSON(){}
-function importJSON(){}
-// ---- INIT ----
-load();`
-  );
-
   // Télécharger le HTML
-  dl(new Blob([src],{type:'text/html;charset=utf-8'}), 'index.html');
+  dl(new Blob([src], {type:'text/html;charset=utf-8'}), 'index.html');
 
-  // Télécharger aussi le JSON de sauvegarde (léger délai pour ne pas bloquer)
+  // Télécharger aussi le JSON de sauvegarde
   setTimeout(()=>{
     const data = { version:1, exported: new Date().toISOString(), pages };
     const date = new Date().toISOString().slice(0,10);
-    dl(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}), `senutils-wiki-${date}.json`);
+    dl(new Blob([JSON.stringify(data,null,2)], {type:'application/json'}), `senutils-wiki-${date}.json`);
     notify('HTML publié + sauvegarde JSON téléchargés !', 'success');
   }, 400);
 }
