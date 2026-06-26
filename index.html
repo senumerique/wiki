@@ -1,0 +1,1245 @@
+<html lang="fr"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Senutils — Wiki</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --bg2: #161b22;
+    --bg3: #21262d;
+    --bg4: #30363d;
+    --border: #30363d;
+    --border2: #484f58;
+    --text: #e6edf3;
+    --text2: #8b949e;
+    --text3: #6e7681;
+    --accent: #58a6ff;
+    --accent2: #1f6feb;
+    --accent-bg: #1f3355;
+    --green: #3fb950;
+    --green-bg: #12261e;
+    --amber: #d29922;
+    --amber-bg: #272115;
+    --red: #f85149;
+    --purple: #bc8cff;
+    --purple-bg: #2a1f3d;
+    --mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    --radius: 6px;
+    --sidebar: 260px;
+    --transition: 0.15s ease;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    font-size: 15px;
+  }
+
+  /* TOP BAR */
+  #topbar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 16px;
+    height: 52px;
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+    z-index: 100;
+  }
+  #topbar .logo {
+    font-family: var(--mono);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--accent);
+    white-space: nowrap;
+    letter-spacing: -0.3px;
+  }
+  #topbar .logo span { color: var(--text2); }
+  #search-wrap {
+    flex: 1;
+    max-width: 480px;
+    position: relative;
+  }
+  #search {
+    width: 100%;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 14px;
+    padding: 6px 10px 6px 34px;
+    outline: none;
+    transition: border-color var(--transition);
+  }
+  #search:focus { border-color: var(--accent2); }
+  #search::placeholder { color: var(--text3); }
+  #search-icon {
+    position: absolute;
+    left: 10px; top: 50%;
+    transform: translateY(-50%);
+    color: var(--text3);
+    font-size: 14px;
+    pointer-events: none;
+  }
+  #search-results {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0; right: 0;
+    background: var(--bg2);
+    border: 1px solid var(--border2);
+    border-radius: var(--radius);
+    z-index: 200;
+    display: none;
+    max-height: 320px;
+    overflow-y: auto;
+  }
+  #search-results.visible { display: block; }
+  .search-item {
+    padding: 10px 14px;
+    cursor: pointer;
+    border-bottom: 1px solid var(--border);
+    transition: background var(--transition);
+  }
+  .search-item:last-child { border-bottom: none; }
+  .search-item:hover { background: var(--bg3); }
+  .search-item .s-title { font-size: 13px; font-weight: 500; color: var(--text); }
+  .search-item .s-excerpt { font-size: 12px; color: var(--text2); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .search-item .s-match { color: var(--accent); background: rgba(88,166,255,0.1); border-radius: 2px; padding: 0 2px; }
+
+  .topbar-actions { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 12px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text2);
+    font-size: 13px;
+    cursor: pointer;
+    font-family: var(--sans);
+    transition: all var(--transition);
+    white-space: nowrap;
+  }
+  .btn:hover { background: var(--bg3); color: var(--text); border-color: var(--border2); }
+  .btn.primary { background: var(--accent2); border-color: var(--accent2); color: #fff; }
+  .btn.primary:hover { background: var(--accent); border-color: var(--accent); }
+  .btn.danger:hover { background: var(--red); border-color: var(--red); color: #fff; }
+  #mobile-menu-btn { display: none; }
+
+  /* LAYOUT */
+  #layout {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  /* SIDEBAR */
+  #sidebar {
+    width: var(--sidebar);
+    background: var(--bg2);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    overflow: hidden;
+    transition: transform var(--transition);
+  }
+  #sidebar-header {
+    padding: 12px 14px 8px;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  #sidebar-header h3 {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--text3);
+    font-family: var(--mono);
+    margin-bottom: 8px;
+  }
+  #tag-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .tag-filter {
+    font-size: 11px;
+    padding: 2px 7px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    color: var(--text2);
+    cursor: pointer;
+    font-family: var(--mono);
+    transition: all var(--transition);
+    background: transparent;
+  }
+  .tag-filter:hover, .tag-filter.active {
+    background: var(--accent-bg);
+    border-color: var(--accent2);
+    color: var(--accent);
+  }
+  #pages-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px 8px;
+  }
+  #pages-list::-webkit-scrollbar { width: 4px; }
+  #pages-list::-webkit-scrollbar-track { background: transparent; }
+  #pages-list::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+  .page-item {
+    padding: 7px 10px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: background var(--transition);
+    border: 1px solid transparent;
+    margin-bottom: 2px;
+  }
+  .page-item:hover { background: var(--bg3); }
+  .page-item.active { background: var(--accent-bg); border-color: var(--accent2); }
+  .page-item .pi-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .page-item.active .pi-title { color: var(--accent); }
+  .page-item .pi-meta {
+    font-size: 11px;
+    color: var(--text3);
+    margin-top: 2px;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+  .page-item .pi-tag {
+    font-size: 10px;
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-family: var(--mono);
+  }
+
+  /* MAIN */
+  #main {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+    min-width: 0;
+  }
+
+  /* CONTENT AREA */
+  #content-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-width: 0;
+  }
+
+  /* PAGE HEADER */
+  #page-header {
+    padding: 20px 28px 16px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg);
+    flex-shrink: 0;
+  }
+  #page-title-wrap {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  #page-title {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text);
+    flex: 1;
+    line-height: 1.3;
+  }
+  #page-title-input {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text);
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-family: var(--sans);
+    line-height: 1.3;
+    display: none;
+  }
+  #page-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .tag-badge {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-family: var(--mono);
+    font-weight: 500;
+  }
+  #page-date { font-size: 12px; color: var(--text3); font-family: var(--mono); }
+  #page-actions { display: flex; gap: 6px; margin-left: auto; flex-shrink: 0; }
+
+  /* VIEW + EDITOR */
+  #view-edit-wrap {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    min-height: 0;
+  }
+  #page-view {
+    flex: 1;
+    overflow-y: auto;
+    padding: 28px 28px 60px;
+    min-width: 0;
+  }
+  #page-view::-webkit-scrollbar { width: 6px; }
+  #page-view::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+  #page-view::-webkit-scrollbar-track { background: transparent; }
+
+  /* RENDERED MARKDOWN */
+  .wiki-content { max-width: 780px; line-height: 1.75; color: var(--text); }
+  .wiki-content h1 { font-size: 20px; font-weight: 600; margin: 32px 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); color: var(--text); }
+  .wiki-content h2 { font-size: 17px; font-weight: 600; margin: 28px 0 10px; color: var(--text); }
+  .wiki-content h3 { font-size: 15px; font-weight: 600; margin: 20px 0 8px; color: var(--text2); }
+  .wiki-content p { margin-bottom: 14px; color: var(--text); }
+  .wiki-content ul, .wiki-content ol { margin: 0 0 14px 20px; }
+  .wiki-content li { margin-bottom: 4px; }
+  .wiki-content code {
+    font-family: var(--mono);
+    font-size: 13px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 6px;
+    color: var(--purple);
+  }
+  .wiki-content pre {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    overflow-x: auto;
+    margin-bottom: 16px;
+  }
+  .wiki-content pre code {
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 13px;
+    color: var(--text);
+  }
+  .wiki-content blockquote {
+    border-left: 3px solid var(--accent2);
+    padding: 4px 0 4px 16px;
+    margin: 0 0 14px;
+    color: var(--text2);
+    background: rgba(31, 111, 235, 0.05);
+    border-radius: 0 4px 4px 0;
+  }
+  .wiki-content table { width: 100%; border-collapse: collapse; margin-bottom: 16px; font-size: 14px; }
+  .wiki-content th { background: var(--bg3); border: 1px solid var(--border2); padding: 8px 12px; text-align: left; font-size: 12px; font-family: var(--mono); color: var(--text2); text-transform: uppercase; letter-spacing: 0.5px; }
+  .wiki-content td { border: 1px solid var(--border); padding: 8px 12px; }
+  .wiki-content tr:hover td { background: rgba(255,255,255,0.02); }
+  .wiki-content a { color: var(--accent); text-decoration: none; }
+  .wiki-content a:hover { text-decoration: underline; }
+  .wiki-content hr { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
+  .wiki-content strong { color: var(--text); font-weight: 600; }
+  .wiki-content em { color: var(--text2); font-style: italic; }
+
+  /* CALLOUT */
+  .callout {
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    margin-bottom: 14px;
+    border-left: 3px solid;
+    font-size: 14px;
+  }
+  .callout.info { background: rgba(88,166,255,0.08); border-color: var(--accent); }
+  .callout.warn { background: var(--amber-bg); border-color: var(--amber); }
+  .callout.tip { background: var(--green-bg); border-color: var(--green); }
+
+  /* EDITOR */
+  #editor-wrap {
+    flex: 1;
+    overflow: hidden;
+    display: none;
+    flex-direction: column;
+    min-width: 0;
+  }
+  #editor-toolbar {
+    display: flex;
+    gap: 2px;
+    padding: 8px 12px;
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+    flex-shrink: 0;
+  }
+  .ed-btn {
+    padding: 5px 9px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--text2);
+    font-size: 12px;
+    cursor: pointer;
+    font-family: var(--mono);
+    transition: all var(--transition);
+  }
+  .ed-btn:hover { background: var(--bg3); color: var(--text); border-color: var(--border); }
+  .ed-divider { width: 1px; background: var(--border); margin: 0 4px; height: 22px; align-self: center; }
+  #editor {
+    flex: 1;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 14px;
+    line-height: 1.75;
+    padding: 24px 28px;
+    border: none;
+    outline: none;
+    resize: none;
+    overflow-y: auto;
+  }
+  #editor::-webkit-scrollbar { width: 6px; }
+  #editor::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+  /* TAG EDITOR */
+  #tag-editor {
+    display: none;
+    padding: 10px 28px;
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+  }
+  #tag-editor.visible { display: flex; }
+  #tag-editor label { font-size: 12px; color: var(--text3); font-family: var(--mono); }
+  #tag-input {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 12px;
+    padding: 4px 10px;
+    outline: none;
+    width: 220px;
+  }
+  #tag-input:focus { border-color: var(--accent2); }
+
+  /* TOC */
+  #toc-panel {
+    width: 200px;
+    border-left: 1px solid var(--border);
+    background: var(--bg);
+    overflow-y: auto;
+    padding: 20px 16px;
+    flex-shrink: 0;
+  }
+  #toc-panel::-webkit-scrollbar { width: 3px; }
+  #toc-panel::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+  #toc-panel h4 {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text3);
+    font-family: var(--mono);
+    margin-bottom: 12px;
+  }
+  .toc-item {
+    display: block;
+    font-size: 12px;
+    color: var(--text2);
+    text-decoration: none;
+    padding: 3px 0 3px 8px;
+    border-left: 2px solid transparent;
+    transition: all var(--transition);
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .toc-item:hover { color: var(--accent); border-color: var(--accent2); }
+  .toc-item.toc-h1 { font-weight: 500; margin-top: 6px; }
+  .toc-item.toc-h2 { padding-left: 16px; font-size: 11px; }
+  .toc-item.toc-h3 { padding-left: 24px; font-size: 11px; color: var(--text3); }
+  .toc-item.toc-active { color: var(--accent); border-color: var(--accent); }
+
+  /* EMPTY STATE */
+  #empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    color: var(--text3);
+    gap: 12px;
+    padding: 40px;
+    text-align: center;
+  }
+  #empty-state .es-icon { font-size: 40px; color: var(--border2); }
+  #empty-state h2 { font-size: 16px; color: var(--text2); font-weight: 500; }
+  #empty-state p { font-size: 13px; max-width: 320px; line-height: 1.6; }
+
+  /* MODAL */
+  .modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 300;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .modal {
+    background: var(--bg2);
+    border: 1px solid var(--border2);
+    border-radius: 10px;
+    padding: 24px;
+    width: 100%;
+    max-width: 420px;
+  }
+  .modal h3 { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+  .modal p { font-size: 13px; color: var(--text2); margin-bottom: 20px; line-height: 1.6; }
+  .modal input {
+    width: 100%;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 14px;
+    padding: 8px 12px;
+    outline: none;
+    margin-bottom: 16px;
+  }
+  .modal input:focus { border-color: var(--accent2); }
+  .modal-actions { display: flex; gap: 8px; justify-content: flex-end; }
+
+  /* NOTIFICATIONS */
+  #notif {
+    position: fixed;
+    bottom: 20px; right: 20px;
+    background: var(--bg2);
+    border: 1px solid var(--border2);
+    border-radius: var(--radius);
+    padding: 10px 16px;
+    font-size: 13px;
+    display: none;
+    align-items: center;
+    gap: 8px;
+    z-index: 400;
+    animation: slideIn 0.2s ease;
+  }
+  #notif.show { display: flex; }
+  #notif.success { border-color: var(--green); color: var(--green); }
+  #notif.error { border-color: var(--red); color: var(--red); }
+  @keyframes slideIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    #toc-panel { display: none; }
+  }
+  @media (max-width: 650px) {
+    #sidebar {
+      position: fixed;
+      top: 52px; left: 0; bottom: 0;
+      z-index: 150;
+      transform: translateX(-100%);
+    }
+    #sidebar.open { transform: translateX(0); }
+    #mobile-menu-btn { display: flex; }
+    #page-header { padding: 14px 16px 12px; }
+    #page-view { padding: 18px 16px 40px; }
+    #editor { padding: 16px; }
+    .topbar-actions .btn span { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div id="topbar">
+  
+  <div class="logo" style="display:flex;align-items:center;gap:8px">
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="1" y="1" width="9" height="9" rx="2" fill="#58a6ff" opacity="0.9"></rect>
+      <rect x="12" y="1" width="9" height="5" rx="2" fill="#58a6ff" opacity="0.5"></rect>
+      <rect x="1" y="12" width="5" height="9" rx="2" fill="#58a6ff" opacity="0.5"></rect>
+      <rect x="8" y="12" width="13" height="9" rx="2" fill="#58a6ff" opacity="0.7"></rect>
+    </svg>
+    <span style="color:var(--text);font-weight:600;font-size:15px;letter-spacing:-0.3px">Sen<span style="color:var(--accent)">utils</span></span>
+  </div>
+  <div id="search-wrap">
+    <span id="search-icon">🔍</span>
+    <input type="text" id="search" placeholder="Rechercher..." autocomplete="off" oninput="doSearch(this.value)" onblur="setTimeout(()=&gt;closeSearch(),150)">
+    <div id="search-results"></div>
+  </div>
+  <div class="topbar-actions">
+    
+    
+  </div>
+</div>
+
+<!-- LAYOUT -->
+<div id="layout">
+  <!-- SIDEBAR -->
+  <div id="sidebar">
+    <div id="sidebar-header">
+      <h3>Catégories</h3>
+      <div id="tag-filters"><button class="tag-filter active" onclick="setTagFilter(null)">Tout</button><button class="tag-filter" style="" onclick="setTagFilter('notes')">notes</button><button class="tag-filter" style="" onclick="setTagFilter('dev')">dev</button><button class="tag-filter" style="" onclick="setTagFilter('lecture')">lecture</button></div>
+    </div>
+    <div id="pages-list"><div class="page-item active" onclick="openPage('p1782512437334')">
+      <div class="pi-title">PowerShell - Dépannage système</div>
+      <div class="pi-meta"><span>27 juin</span></div>
+    </div><div class="page-item" onclick="openPage('p1')">
+      <div class="pi-title">Bienvenue dans votre Wiki</div>
+      <div class="pi-meta"><span class="pi-tag" style="background:#1e2a1e;color:#3fb950">notes</span><span>27 juin</span></div>
+    </div><div class="page-item" onclick="openPage('p2')">
+      <div class="pi-title">Ressources de développement</div>
+      <div class="pi-meta"><span class="pi-tag" style="background:#1f3355;color:#58a6ff">dev</span><span>27 juin</span></div>
+    </div><div class="page-item" onclick="openPage('p3')">
+      <div class="pi-title">Lectures en cours</div>
+      <div class="pi-meta"><span class="pi-tag" style="background:#2e1a1a;color:#f85149">lecture</span><span class="pi-tag" style="background:#1e2a1e;color:#3fb950">notes</span><span>27 juin</span></div>
+    </div></div>
+  </div>
+
+  <!-- MAIN -->
+  <div id="main">
+    <!-- CONTENT AREA -->
+    <div id="content-area">
+      <!-- PAGE HEADER -->
+      <div id="page-header" style="">
+        <div id="page-title-wrap">
+          <div id="page-title">PowerShell - Dépannage système</div>
+          <input type="text" id="page-title-input" placeholder="Titre de la page…" style="display: none;">
+          <div id="page-actions">
+            
+            
+            
+            
+          </div>
+        </div>
+        <div id="page-meta">
+          <span id="page-date">27 juin 2026</span>
+          <span id="page-tags"></span>
+        </div>
+      </div>
+
+      <!-- VIEW / EDITOR -->
+      <div id="view-edit-wrap">
+        <!-- VIEW MODE -->
+        <div id="page-view">
+          <div id="empty-state" style="display: none;">
+            <div class="es-icon">📄</div>
+            <h2>Votre wiki personnel</h2>
+            <p>Sélectionnez une page dans la barre latérale, ou créez votre première note avec <strong>+ Nouvelle page</strong>.</p>
+          </div>
+          <div class="wiki-content" id="wiki-body" style=""><h1 id="powershell-d-pannage-syst-me">PowerShell - Dépannage système</h1>
+<h2 id="commande-de-base-pour-le-scan-et-la-r-paration-syst-me-">Commande de base pour le scan et la réparation système.</h2>
+<p>Vérificateur de fichiers système pour analyser Windows et restaurer les fichiers</p>
+<pre><code>sfc /scannow</code></pre>
+<p>Analysez l’image Windows pour déterminer si elle est endommagée.</p>
+<pre><code>DISM /Online /Cleanup-Image /ScanHealth</code></pre>
+<p>Vérifie si l’image Windows est saine, réparable ou non réparable.</p>
+<pre><code>Dism /Online /Cleanup-Image /CheckHealth</code></pre>
+<p>Réparer les fichiers système de Windows</p>
+<pre><code>DISM /Online /Cleanup-Image /RestoreHealth</code></pre></div>
+        </div>
+
+        <!-- EDITOR MODE -->
+        <div id="editor-wrap" style="display: none;">
+          <div id="editor-toolbar">
+            <button class="ed-btn" onclick="edInsert('# ','')">H1</button>
+            <button class="ed-btn" onclick="edInsert('## ','')">H2</button>
+            <button class="ed-btn" onclick="edInsert('### ','')">H3</button>
+            <div class="ed-divider"></div>
+            <button class="ed-btn" onclick="edWrap('**','**')"><b>B</b></button>
+            <button class="ed-btn" onclick="edWrap('*','*')"><em>I</em></button>
+            <button class="ed-btn" onclick="edWrap('`','`')">{ }</button>
+            <div class="ed-divider"></div>
+            <button class="ed-btn" onclick="edInsert('- ','')">• Liste</button>
+            <button class="ed-btn" onclick="edInsert('1. ','')">1. Liste</button>
+            <button class="ed-btn" onclick="edInsert('&gt; ','')">❝ Citation</button>
+            <div class="ed-divider"></div>
+            <button class="ed-btn" onclick="edInsert('```\n','```')">Code</button>
+            <button class="ed-btn" onclick="edInsert('---\n','')">Séparateur</button>
+            <button class="ed-btn" onclick="edInsert('| Col 1 | Col 2 |\n|---|---|\n| Valeur | Valeur |\n','')">Tableau</button>
+            <div class="ed-divider"></div>
+            <button class="ed-btn" onclick="edInsert('::: info\n',':::')">ℹ️ Note</button>
+            <button class="ed-btn" onclick="edInsert('::: warn\n',':::')">⚠️ Alerte</button>
+          </div>
+          <textarea id="editor" spellcheck="true" placeholder="Écrivez en Markdown…"></textarea>
+          <div id="tag-editor" class="">
+            <label>Tags :</label>
+            <input type="text" id="tag-input" placeholder="dev, notes, recherche…">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOC PANEL -->
+    <div id="toc-panel">
+      <h4>Sur cette page</h4>
+      <div id="toc-items">
+    <a class="toc-item toc-h1" onclick="scrollTo('powershell-d-pannage-syst-me')" title="PowerShell - Dépannage système">PowerShell - Dépannage système</a>
+  
+    <a class="toc-item toc-h2" onclick="scrollTo('commande-de-base-pour-le-scan-et-la-r-paration-syst-me-')" title="Commande de base pour le scan et la réparation système.">Commande de base pour le scan et la réparation système.</a>
+  </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal" style="display:none" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <h3 id="modal-title">Nouvelle page</h3>
+    <p id="modal-desc">Choisissez un titre pour commencer.</p>
+    <input type="text" id="modal-input" placeholder="Ex : Recettes Python, Notes de réunion…">
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal()">Annuler</button>
+      <button class="btn primary" id="modal-confirm" onclick="confirmNewPage()">Créer</button>
+    </div>
+  </div>
+</div>
+
+<!-- NOTIF -->
+<div id="notif"></div>
+
+<script>
+// ---- DATA ----
+const TAG_COLORS = {
+  dev:['#1f3355','#58a6ff'],
+  notes:['#1e2a1e','#3fb950'],
+  recherche:['#2a1f3d','#bc8cff'],
+  idées:['#272115','#d29922'],
+  lecture:['#2e1a1a','#f85149'],
+  projet:['#12261e','#3fb950'],
+  default:['#21262d','#8b949e']
+};
+function tagColor(t){ return TAG_COLORS[t.toLowerCase()]||TAG_COLORS.default; }
+
+const STORAGE_KEY = 'wikipersonal_v2';
+let pages = [];
+let currentId = null;
+let editing = false;
+let activeTagFilter = null;
+
+function load(){
+  pages = [{"id":"p1782512437334","title":"PowerShell - Dépannage système","tags":[],"date":"2026-06-26T22:24:36.859Z","body":"# PowerShell - Dépannage système\n\n## Commande de base pour le scan et la réparation système.\n\nVérificateur de fichiers système pour analyser Windows et restaurer les fichiers \n\n```\nsfc /scannow \n```\n\nAnalysez l’image Windows pour déterminer si elle est endommagée.\n\n```\nDISM /Online /Cleanup-Image /ScanHealth\n```\n\nVérifie si l’image Windows est saine, réparable ou non réparable.\n\n```\nDism /Online /Cleanup-Image /CheckHealth\n```\n\nRéparer les fichiers système de Windows\n\n```\nDISM /Online /Cleanup-Image /RestoreHealth\n``` "},{"id":"p1","title":"Bienvenue dans votre Wiki","tags":["notes"],"date":"2026-06-26T22:18:44.483Z","body":"# Bienvenue 👋\n\nCe wiki personnel est entièrement stocké dans votre navigateur (localStorage). Vous pouvez l'exporter ou le publier facilement.\n\n## Fonctionnalités\n\n- **Recherche** dans toutes les pages (barre du haut)\n- **Éditeur Markdown** intégré avec barre d'outils\n- **Sommaire automatique** (panneau de droite)\n- **Tags & filtres** par catégorie\n- Fonctionne **hors-ligne**, aucun serveur requis\n\n## Markdown supporté\n\n### Texte basique\n\n*Italique*, **gras**, `code inline`.\n\n> Blockquote pour mettre en valeur une citation ou une note importante.\n\n### Code\n\n```\nfunction hello() {\n  console.log(\"Bonjour le monde !\");\n}\n```\n\n### Tableau\n\n| Raccourci | Action |\n|---|---|\n| Cliquer ✏️ | Modifier la page |\n| Ctrl+S | Enregistrer |\n\n---\n\nBonne prise de notes !"},{"id":"p2","title":"Ressources de développement","tags":["dev"],"date":"2026-06-26T22:18:44.483Z","body":"# Ressources dev\n\nUne collection de liens et d'outils utiles.\n\n## Outils incontournables\n\n- [MDN Web Docs](https://developer.mozilla.org) — Référence HTML/CSS/JS\n- [Can I Use](https://caniuse.com) — Compatibilité navigateurs\n- [Regex101](https://regex101.com) — Tester les expressions régulières\n\n## Snippets Python\n\n```\n# Lire un fichier JSON\nimport json\nwith open('data.json') as f:\n    data = json.load(f)\n```\n\n## Notes Git\n\n| Commande | Usage |\n|---|---|\n| git stash | Mettre de côté les changements |\n| git log --oneline | Historique compact |\n| git cherry-pick <hash> | Appliquer un commit précis |"},{"id":"p3","title":"Lectures en cours","tags":["lecture","notes"],"date":"2026-06-26T22:18:44.483Z","body":"# Lectures en cours\n\n## En ce moment\n\n**Deep Work** — Cal Newport\n\n> La capacité de se concentrer sans distraction sur une tâche cognitivement exigeante est devenue de plus en plus rare.\n\nNotes : Bloquer des créneaux fixes dans le calendrier. Fermer les notifications. Mesurer les heures de travail profond par semaine.\n\n## File d'attente\n\n- *L'Homme qui prenait sa femme pour un chapeau* — Oliver Sacks\n- *Thinking, Fast and Slow* — Daniel Kahneman\n- *Clean Code* — Robert C. Martin\n\n## Terminé ✓\n\n- **Le Mythe de Sisyphe** — Albert Camus — ⭐⭐⭐⭐⭐"}];
+  render();
+}
+  catch(e){ pages = []; }
+  if(!pages.length) pages = getSamplePages();
+  render();
+}
+
+function save(){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(pages));
+}
+
+function getSamplePages(){
+  return [
+    {
+      id:'p1', title:'Bienvenue dans votre Wiki',
+      tags:['notes'],
+      date: new Date().toISOString(),
+      body:`# Bienvenue 👋
+
+Ce wiki personnel est entièrement stocké dans votre navigateur (localStorage). Vous pouvez l'exporter ou le publier facilement.
+
+## Fonctionnalités
+
+- **Recherche** dans toutes les pages (barre du haut)
+- **Éditeur Markdown** intégré avec barre d'outils
+- **Sommaire automatique** (panneau de droite)
+- **Tags & filtres** par catégorie
+- Fonctionne **hors-ligne**, aucun serveur requis
+
+## Markdown supporté
+
+### Texte basique
+
+*Italique*, **gras**, \`code inline\`.
+
+> Blockquote pour mettre en valeur une citation ou une note importante.
+
+### Code
+
+\`\`\`
+function hello() {
+  console.log("Bonjour le monde !");
+}
+\`\`\`
+
+### Tableau
+
+| Raccourci | Action |
+|---|---|
+| Cliquer ✏️ | Modifier la page |
+| Ctrl+S | Enregistrer |
+
+---
+
+Bonne prise de notes !`
+    },
+    {
+      id:'p2', title:'Ressources de développement',
+      tags:['dev'],
+      date: new Date().toISOString(),
+      body:`# Ressources dev
+
+Une collection de liens et d'outils utiles.
+
+## Outils incontournables
+
+- [MDN Web Docs](https://developer.mozilla.org) — Référence HTML/CSS/JS
+- [Can I Use](https://caniuse.com) — Compatibilité navigateurs
+- [Regex101](https://regex101.com) — Tester les expressions régulières
+
+## Snippets Python
+
+\`\`\`
+# Lire un fichier JSON
+import json
+with open('data.json') as f:
+    data = json.load(f)
+\`\`\`
+
+## Notes Git
+
+| Commande | Usage |
+|---|---|
+| git stash | Mettre de côté les changements |
+| git log --oneline | Historique compact |
+| git cherry-pick <hash> | Appliquer un commit précis |`
+    },
+    {
+      id:'p3', title:'Lectures en cours',
+      tags:['lecture','notes'],
+      date: new Date().toISOString(),
+      body:`# Lectures en cours
+
+## En ce moment
+
+**Deep Work** — Cal Newport
+
+> La capacité de se concentrer sans distraction sur une tâche cognitivement exigeante est devenue de plus en plus rare.
+
+Notes : Bloquer des créneaux fixes dans le calendrier. Fermer les notifications. Mesurer les heures de travail profond par semaine.
+
+## File d'attente
+
+- *L'Homme qui prenait sa femme pour un chapeau* — Oliver Sacks
+- *Thinking, Fast and Slow* — Daniel Kahneman
+- *Clean Code* — Robert C. Martin
+
+## Terminé ✓
+
+- **Le Mythe de Sisyphe** — Albert Camus — ⭐⭐⭐⭐⭐`
+    }
+  ];
+}
+
+// ---- RENDER ----
+function render(){
+  renderSidebar();
+  renderTags();
+  if(currentId) openPage(currentId, false);
+}
+
+function renderSidebar(){
+  const list = document.getElementById('pages-list');
+  const filter = activeTagFilter;
+  const visible = filter ? pages.filter(p=>p.tags.includes(filter)) : pages;
+  if(!visible.length){
+    list.innerHTML = `<div style="padding:20px 10px;text-align:center;color:var(--text3);font-size:12px;">Aucune page${filter?' avec ce tag':''}.</div>`;
+    return;
+  }
+  list.innerHTML = visible.map(p=>{
+    const tagHtml = p.tags.slice(0,2).map(t=>{
+      const [bg,fg]=tagColor(t);
+      return `<span class="pi-tag" style="background:${bg};color:${fg}">${t}</span>`;
+    }).join('');
+    const d = new Date(p.date);
+    const dStr = d.toLocaleDateString('fr-FR',{day:'numeric',month:'short'});
+    return `<div class="page-item${p.id===currentId?' active':''}" onclick="openPage('${p.id}')">
+      <div class="pi-title">${esc(p.title)}</div>
+      <div class="pi-meta">${tagHtml}<span>${dStr}</span></div>
+    </div>`;
+  }).join('');
+}
+
+function renderTags(){
+  const all = [...new Set(pages.flatMap(p=>p.tags))];
+  const wrap = document.getElementById('tag-filters');
+  wrap.innerHTML = `<button class="tag-filter${!activeTagFilter?' active':''}" onclick="setTagFilter(null)">Tout</button>`;
+  all.forEach(t=>{
+    const [bg,fg]=tagColor(t);
+    wrap.innerHTML+=`<button class="tag-filter${activeTagFilter===t?' active':''}" style="${activeTagFilter===t?`background:${bg};border-color:${fg};color:${fg}`:''}" onclick="setTagFilter('${t}')">${t}</button>`;
+  });
+}
+
+function setTagFilter(t){
+  activeTagFilter = t;
+  renderSidebar();
+  renderTags();
+}
+
+// ---- PAGE VIEW ----
+function openPage(id, scroll=true){
+  currentId = id;
+  editing = false;
+  const page = pages.find(p=>p.id===id);
+  if(!page) return;
+
+  document.getElementById('page-header').style.display='';
+  document.getElementById('page-title').textContent = page.title;
+  document.getElementById('page-title').style.display='';
+  document.getElementById('page-title-input').style.display='none';
+  document.getElementById('page-date').textContent = new Date(page.date).toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'});
+
+  const tagsHtml = page.tags.map(t=>{
+    const [bg,fg]=tagColor(t);
+    return `<span class="tag-badge" style="background:${bg};color:${fg}">${t}</span>`;
+  }).join('');
+  document.getElementById('page-tags').innerHTML = tagsHtml;
+
+  document.getElementById('btn-edit').style.display='';
+  document.getElementById('btn-save').style.display='none';
+  document.getElementById('btn-cancel').style.display='none';
+
+  document.getElementById('empty-state').style.display='none';
+  document.getElementById('wiki-body').style.display='';
+  document.getElementById('page-view').style.display='';
+  document.getElementById('editor-wrap').style.display='none';
+  document.getElementById('tag-editor').classList.remove('visible');
+
+  document.getElementById('wiki-body').innerHTML = renderMarkdown(page.body||'');
+  buildTOC();
+  renderSidebar();
+  if(scroll) document.getElementById('page-view').scrollTop=0;
+  if(window.innerWidth<=650) closeSidebar();
+}
+
+// ---- MARKDOWN RENDERER ----
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function renderMarkdown(md){
+  let html = md;
+  // Code blocks
+  html = html.replace(/```(\w*)\n?([\s\S]*?)```/g,(_,lang,code)=>`<pre><code>${esc(code.trim())}</code></pre>`);
+  // Callouts
+  html = html.replace(/:::\s*(info|warn|tip)\n([\s\S]*?):::/g,(_,type,content)=>`<div class="callout ${type}">${renderInline(content.trim())}</div>`);
+  // Tables
+  html = html.replace(/((?:\|.+\|\n?)+)/g, block=>{
+    const rows = block.trim().split('\n').filter(r=>r.trim());
+    let out = '<table>';
+    rows.forEach((row,i)=>{
+      if(row.match(/^\|[\s\-|]+\|$/)) return;
+      const tag = i===0?'th':'td';
+      const cells = row.split('|').filter((_,j,a)=>j>0&&j<a.length-1);
+      out+=`<tr>${cells.map(c=>`<${tag}>${renderInline(c.trim())}</${tag}>`).join('')}</tr>`;
+    });
+    return out+'</table>';
+  });
+  // Blockquotes
+  html = html.replace(/^> (.+)$/gm, (_,c)=>`<blockquote>${renderInline(c)}</blockquote>`);
+  // HR
+  html = html.replace(/^---$/gm,'<hr>');
+  // Headings
+  html = html.replace(/^### (.+)$/gm,(_,t)=>`<h3 id="${slug(t)}">${renderInline(t)}</h3>`);
+  html = html.replace(/^## (.+)$/gm,(_,t)=>`<h2 id="${slug(t)}">${renderInline(t)}</h2>`);
+  html = html.replace(/^# (.+)$/gm,(_,t)=>`<h1 id="${slug(t)}">${renderInline(t)}</h1>`);
+  // Lists
+  html = html.replace(/^(\d+\. .+)(\n\d+\. .+)*/gm, block=>{
+    const items = block.split('\n').map(l=>l.replace(/^\d+\.\s*/,''));
+    return `<ol>${items.map(i=>`<li>${renderInline(i)}</li>`).join('')}</ol>`;
+  });
+  html = html.replace(/^([-*] .+)(\n[-*] .+)*/gm, block=>{
+    const items = block.split('\n').map(l=>l.replace(/^[-*]\s*/,''));
+    return `<ul>${items.map(i=>`<li>${renderInline(i)}</li>`).join('')}</ul>`;
+  });
+  // Paragraphs
+  html = html.split(/\n\n+/).map(block=>{
+    block = block.trim();
+    if(!block) return '';
+    if(block.match(/^<(h[1-6]|ul|ol|pre|blockquote|hr|table|div)/)) return block;
+    return `<p>${renderInline(block.replace(/\n/g,' '))}</p>`;
+  }).join('\n');
+  return html;
+}
+
+function renderInline(s){
+  s = esc(s);
+  s = s.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
+  s = s.replace(/\*(.+?)\*/g,'<em>$1</em>');
+  s = s.replace(/`(.+?)`/g,'<code>$1</code>');
+  s = s.replace(/\[(.+?)\]\((.+?)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>');
+  return s;
+}
+
+function slug(t){ return t.toLowerCase().replace(/[^a-z0-9]/g,'-').replace(/-+/g,'-'); }
+
+// ---- TOC ----
+function buildTOC(){
+  const toc = document.getElementById('toc-items');
+  const body = document.getElementById('wiki-body');
+  const headings = body.querySelectorAll('h1,h2,h3');
+  if(!headings.length){ toc.innerHTML='<span style="font-size:12px;color:var(--text3)">Aucune section</span>'; return; }
+  toc.innerHTML = [...headings].map(h=>`
+    <a class="toc-item toc-${h.tagName.toLowerCase()}" onclick="scrollTo('${h.id}')" title="${h.textContent}">${h.textContent}</a>
+  `).join('');
+}
+
+function scrollTo(id){
+  const el = document.getElementById(id);
+  if(el){ el.scrollIntoView({behavior:'smooth',block:'start'}); }
+}
+
+// ---- EDIT ----
+function enterEdit(){
+  const page = pages.find(p=>p.id===currentId);
+  if(!page) return;
+  editing = true;
+
+  document.getElementById('page-title').style.display='none';
+  document.getElementById('page-title-input').style.display='';
+  document.getElementById('page-title-input').value = page.title;
+  document.getElementById('btn-edit').style.display='none';
+  document.getElementById('btn-save').style.display='';
+  document.getElementById('btn-cancel').style.display='';
+
+  document.getElementById('page-view').style.display='none';
+  document.getElementById('editor-wrap').style.display='flex';
+  document.getElementById('editor-wrap').style.flexDirection='column';
+  document.getElementById('tag-editor').classList.add('visible');
+
+  document.getElementById('editor').value = page.body||'';
+  document.getElementById('tag-input').value = (page.tags||[]).join(', ');
+  document.getElementById('editor').focus();
+}
+
+function savePage(){
+  const page = pages.find(p=>p.id===currentId);
+  if(!page) return;
+  page.title = document.getElementById('page-title-input').value.trim()||page.title;
+  page.body = document.getElementById('editor').value;
+  page.tags = document.getElementById('tag-input').value.split(',').map(t=>t.trim().toLowerCase()).filter(Boolean);
+  page.date = new Date().toISOString();
+  save();
+  notify('Page enregistrée','success');
+  openPage(currentId);
+  renderTags();
+}
+
+function cancelEdit(){
+  openPage(currentId);
+}
+
+function deletePage(){
+  if(!currentId) return;
+  const page = pages.find(p=>p.id===currentId);
+  if(!confirm(`Supprimer "${page?.title}" ?`)) return;
+  pages = pages.filter(p=>p.id!==currentId);
+  currentId = null;
+  save();
+  document.getElementById('page-header').style.display='none';
+  document.getElementById('empty-state').style.display='flex';
+  document.getElementById('wiki-body').style.display='none';
+  document.getElementById('page-view').style.display='';
+  document.getElementById('editor-wrap').style.display='none';
+  document.getElementById('toc-items').innerHTML='';
+  renderSidebar();
+  renderTags();
+  notify('Page supprimée');
+}
+
+// ---- EDITOR HELPERS ----
+function edInsert(before, after){
+  const ta = document.getElementById('editor');
+  const s = ta.selectionStart, e = ta.selectionEnd;
+  const sel = ta.value.slice(s,e);
+  const ins = before + sel + after;
+  ta.value = ta.value.slice(0,s) + ins + ta.value.slice(e);
+  ta.selectionStart = s + before.length;
+  ta.selectionEnd = s + before.length + sel.length;
+  ta.focus();
+}
+function edWrap(a,b){ edInsert(a,b); }
+
+// Ctrl+S save
+document.addEventListener('keydown',e=>{
+  if((e.ctrlKey||e.metaKey)&&e.key==='s'&&editing){
+    e.preventDefault(); savePage();
+  }
+});
+
+// ---- NEW PAGE ----
+function newPage(){
+  document.getElementById('modal').style.display='flex';
+  document.getElementById('modal-input').value='';
+  setTimeout(()=>document.getElementById('modal-input').focus(),50);
+}
+function closeModal(){
+  document.getElementById('modal').style.display='none';
+}
+function confirmNewPage(){
+  const title = document.getElementById('modal-input').value.trim();
+  if(!title) return;
+  const page = {
+    id:'p'+Date.now(),
+    title,
+    tags:[],
+    date:new Date().toISOString(),
+    body:`# ${title}\n\nCommencez à écrire ici…`
+  };
+  pages.unshift(page);
+  save();
+  closeModal();
+  renderSidebar();
+  renderTags();
+  currentId = page.id;
+  openPage(page.id);
+  setTimeout(enterEdit, 50);
+}
+document.getElementById('modal-input').addEventListener('keydown',e=>{
+  if(e.key==='Enter') confirmNewPage();
+  if(e.key==='Escape') closeModal();
+});
+
+// ---- SEARCH ----
+function doSearch(q){
+  const box = document.getElementById('search-results');
+  if(!q||q.length<2){ box.classList.remove('visible'); return; }
+  const lq = q.toLowerCase();
+  const results = pages.filter(p=>
+    p.title.toLowerCase().includes(lq)||
+    (p.body||'').toLowerCase().includes(lq)
+  ).slice(0,8);
+  if(!results.length){
+    box.innerHTML='<div class="search-item"><div class="s-title">Aucun résultat</div></div>';
+    box.classList.add('visible'); return;
+  }
+  box.innerHTML = results.map(p=>{
+    const idx = (p.body||'').toLowerCase().indexOf(lq);
+    let excerpt = '';
+    if(idx>=0){
+      const start = Math.max(0,idx-30);
+      const raw = p.body.slice(start, idx+60).replace(/[#*`>]/g,'');
+      excerpt = raw.replace(new RegExp(q,'gi'), m=>`<span class="s-match">${m}</span>`);
+    }
+    return `<div class="search-item" onmousedown="openPage('${p.id}');closeSearch()">
+      <div class="s-title">${esc(p.title).replace(new RegExp(q,'gi'),m=>`<span class="s-match">${m}</span>`)}</div>
+      ${excerpt?`<div class="s-excerpt">${excerpt}</div>`:''}
+    </div>`;
+  }).join('');
+  box.classList.add('visible');
+}
+function closeSearch(){
+  document.getElementById('search-results').classList.remove('visible');
+  document.getElementById('search').value='';
+}
+
+// ---- SIDEBAR MOBILE ----
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+}
+
+// ---- NOTIFY ----
+function notify(msg, type=''){
+  const el = document.getElementById('notif');
+  el.textContent = msg;
+  el.className = 'show' + (type?' '+type:'');
+  clearTimeout(el._t);
+  el._t = setTimeout(()=>el.classList.remove('show'),2200);
+}
+
+// ---- EXPORT STATIQUE ----
+function exportStatic(){
+  // Reconstruit le HTML complet avec les pages figées dedans,
+  // sans le bouton export ni les boutons d'édition
+  const snapshot = JSON.stringify(pages);
+
+  // On prend le source de la page courante
+  let src = document.documentElement.outerHTML;
+
+  // 1. Masquer le bouton export dans la version publiée
+  src = src.replace(/<button[^>]*id="btn-export"[^>]*>.*?<\/button>/s, '');
+
+  // 2. Masquer les boutons d'édition et de suppression
+  src = src.replace(/<button[^>]*id="btn-edit"[^>]*>.*?<\/button>/s, '');
+  src = src.replace(/<button[^>]*id="btn-save"[^>]*>.*?<\/button>/s, '');
+  src = src.replace(/<button[^>]*id="btn-cancel"[^>]*>.*?<\/button>/s, '');
+  src = src.replace(/<button[^>]*id="btn-delete"[^>]*>.*?<\/button>/s, '');
+  src = src.replace(/<button[^>]*id="mobile-menu-btn"[^>]*>.*?<\/button>/s, '');
+
+  // 3. Masquer la barre d'outil nouvelle page
+  src = src.replace(/<button[^>]*onclick="newPage\(\)"[^>]*>.*?<\/button>/s, '');
+
+  // 4. Injecter les données figées : on remplace la fonction load()
+  // pour qu'elle utilise les données embarquées au lieu du localStorage
+  src = src.replace(
+    /function load\(\)\{[\s\S]*?\}/,
+    `function load(){
+  pages = ${snapshot};
+  render();
+}`
+  );
+
+  // 5. Désactiver les fonctions d'écriture (save, enterEdit, deletePage, newPage)
+  src = src.replace(
+    /\/\/ ---- INIT ----/,
+    `// Version publiée — édition désactivée
+function enterEdit(){}
+function savePage(){}
+function deletePage(){}
+function newPage(){}
+function exportStatic(){ alert('Fonction non disponible dans la version publiée.'); }
+// Version publiée — édition désactivée
+function enterEdit(){}
+function savePage(){}
+function deletePage(){}
+function newPage(){}
+function exportStatic(){ alert('Fonction non disponible dans la version publiée.'); }
+// ---- INIT ----`
+  );
+
+  // Téléchargement
+  const blob = new Blob([src], {type:'text/html;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'index.html';
+  a.click();
+  URL.revokeObjectURL(url);
+  notify('Fichier index.html téléchargé !', 'success');
+}
+
+// ---- INIT ----
+load();
+</script>
+
+
+</body></html>
