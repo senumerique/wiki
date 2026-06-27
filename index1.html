@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="fr"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -314,7 +313,7 @@
   #page-view::-webkit-scrollbar-track { background: transparent; }
 
   /* RENDERED MARKDOWN */
-  .wiki-content { max-width: 100%; line-height: 1.75; color: var(--text); }
+  .wiki-content { max-width: 780px; line-height: 1.75; color: var(--text); }
   .wiki-content h1 { font-size: 20px; font-weight: 600; margin: 32px 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); color: var(--text); }
   .wiki-content h2 { font-size: 17px; font-weight: 600; margin: 28px 0 10px; color: var(--text); }
   .wiki-content h3 { font-size: 15px; font-weight: 600; margin: 20px 0 8px; color: var(--text2); }
@@ -580,7 +579,7 @@
 
 <!-- TOP BAR -->
 <div id="topbar">
-  <button class="btn" id="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Menu">☰</button>
+  
   <div class="logo" style="display:flex;align-items:center;gap:8px">
     <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect x="1" y="1" width="9" height="9" rx="2" fill="#58a6ff" opacity="0.9"></rect>
@@ -596,12 +595,12 @@
     <div id="search-results"></div>
   </div>
   <div class="topbar-actions">
-    <button class="btn" id="btn-import-json" onclick="importJSON()" title="Restaurer depuis une sauvegarde JSON">📥 <span>Importer</span></button>
-    <button class="btn" id="btn-export-json" onclick="exportJSON()" title="Sauvegarder les pages en JSON">💾 <span>Sauvegarde</span></button>
-    <button class="btn" id="btn-export" onclick="exportStatic()" title="Publier en HTML + télécharger la sauvegarde JSON">📤 <span>Publier</span></button>
-    <button class="btn primary" onclick="newPage()"><span>+ Nouvelle page</span></button>
+    
+    
+    
+    
   </div>
-  <input type="file" id="file-import" accept=".json" style="display:none" onchange="handleImport(event)">
+  
 </div>
 
 <!-- LAYOUT -->
@@ -612,7 +611,7 @@
       <h3>Catégories</h3>
       <div id="tag-filters"><button class="tag-filter active" onclick="setTagFilter(null)">Tout</button></div>
     </div>
-    <div id="pages-list"><div class="page-item" onclick="openPage('p1782595254718')">
+    <div id="pages-list"><div class="page-item active" onclick="openPage('p1782595254718')">
       <div class="pi-title">PowerShell - Internet Information Services (IIS)</div>
       <div class="pi-meta"><span>27 juin</span></div>
     </div><div class="page-item" onclick="openPage('p1782578724317')">
@@ -624,7 +623,7 @@
     </div><div class="page-item" onclick="openPage('p1782514631183')">
       <div class="pi-title">PowerShell - Audit système</div>
       <div class="pi-meta"><span>27 juin</span></div>
-    </div><div class="page-item active" onclick="openPage('p1782512437334')">
+    </div><div class="page-item" onclick="openPage('p1782512437334')">
       <div class="pi-title">PowerShell - Dépannage système</div>
       <div class="pi-meta"><span>27 juin</span></div>
     </div></div>
@@ -637,13 +636,13 @@
       <!-- PAGE HEADER -->
       <div id="page-header" style="">
         <div id="page-title-wrap">
-          <div id="page-title">PowerShell - Dépannage système</div>
+          <div id="page-title">PowerShell - Internet Information Services (IIS)</div>
           <input type="text" id="page-title-input" placeholder="Titre de la page…" style="display: none;">
           <div id="page-actions">
-            <button class="btn" id="btn-edit" onclick="enterEdit()">✏️ <span>Modifier</span></button>
-            <button class="btn" id="btn-save" onclick="savePage()" style="display:none">💾 <span>Enregistrer</span></button>
-            <button class="btn" id="btn-cancel" onclick="cancelEdit()" style="display:none">✕</button>
-            <button class="btn danger" id="btn-delete" onclick="deletePage()">🗑</button>
+            
+            
+            
+            
           </div>
         </div>
         <div id="page-meta">
@@ -661,21 +660,24 @@
             <h2>Votre wiki personnel</h2>
             <p>Sélectionnez une page dans la barre latérale, ou créez votre première note avec <strong>+ Nouvelle page</strong>.</p>
           </div>
-          <div class="wiki-content" id="wiki-body" style=""><h1 id="v-rifications-et-r-parations">Vérifications et réparations</h1>
-<h2 id="commande-de-base-pour-le-scan-et-la-r-paration-syst-me-">Commande de base pour le scan et la réparation système.</h2>
-<p>Vérificateur de fichiers système pour analyser Windows et restaurer les fichiers</p>
-<pre><code>sfc /scannow</code></pre>
-<p>Analysez l’image Windows pour déterminer si elle est endommagée.</p>
-<pre><code>DISM /Online /Cleanup-Image /ScanHealth</code></pre>
-<p>Vérifie si l’image Windows est saine, réparable ou non réparable.</p>
-<pre><code>Dism /Online /Cleanup-Image /CheckHealth</code></pre>
-<p>Réparer les fichiers système de Windows</p>
-<pre><code>DISM /Online /Cleanup-Image /RestoreHealth</code></pre>
-<p>Vérifie l’intégrité et répare les erreurs disque (analyse profonde) - Reboot nécessaire !</p>
-<pre><code>chkdsk c: /F /R</code></pre>
-<h1 id="nettoyage">Nettoyage</h1>
-<p>Supprime automatiquement les composants (anciennes versions, inutilisés)</p>
-<pre><code>Dism.exe /online /Cleanup-Image /StartComponentCleanup</code></pre></div>
+          <div class="wiki-content" id="wiki-body" style=""><h1 id="powershell-internet-information-services-iis-">PowerShell - Internet Information Services (IIS)</h1>
+<p>Installation du rôle IIS.</p>
+<pre><code>Install-WindowsFeature -name Web-Server -IncludeManagementTools</code></pre>
+<p>Configurer IIS pour démarrer automatiquement</p>
+<pre><code>Set-Service -name W3SVC -startupType Automatic</code></pre>
+<p>Création du dossier du site www</p>
+<pre><code>New-Item -ItemType Directory -Name 'www' -Path 'C:\'</code></pre>
+<p>Installation du module IISAdministration</p>
+<pre><code>Install-Module -Name 'IISAdministration'</code></pre>
+
+<p>Créer le site Web dans IIS</p>
+<pre><code>New-IISSite -Name 'www' -PhysicalPath 'C:\www\' -BindingInformation "*:443:"</code></pre>
+<p>Arrêt du site</p>
+<pre><code>Stop-IISSite -Name "www"</code></pre>
+<p>Démarrage du site</p>
+<pre><code>Start-IISSite -Name "www"</code></pre>
+<p>Obtenir les infos du site</p>
+<pre><code>Get-IISSite -Name "www"</code></pre></div>
         </div>
 
         <!-- EDITOR MODE -->
@@ -713,11 +715,7 @@
     <div id="toc-panel">
       <h4>Sur cette page</h4>
       <div id="toc-items">
-    <a class="toc-item toc-h1" onclick="scrollTo('v-rifications-et-r-parations')" title="Vérifications et réparations">Vérifications et réparations</a>
-  
-    <a class="toc-item toc-h2" onclick="scrollTo('commande-de-base-pour-le-scan-et-la-r-paration-syst-me-')" title="Commande de base pour le scan et la réparation système.">Commande de base pour le scan et la réparation système.</a>
-  
-    <a class="toc-item toc-h1" onclick="scrollTo('nettoyage')" title="Nettoyage">Nettoyage</a>
+    <a class="toc-item toc-h1" onclick="scrollTo('powershell-internet-information-services-iis-')" title="PowerShell - Internet Information Services (IIS)">PowerShell - Internet Information Services (IIS)</a>
   </div>
     </div>
   </div>
@@ -1246,21 +1244,25 @@ function handleImport(e){
 // ---- EXPORT STATIQUE (publication HTML + JSON) ----
 function exportStatic(){
   const snapshot = JSON.stringify(pages);
+  let src = document.documentElement.outerHTML;
 
-  // Construire le HTML publié manuellement sans passer par outerHTML
-  // On repart du source original stocké dans la page
-  const originalScript = document.getElementById('wiki-data');
-  originalScript.textContent = `window._WIKI_PUBLISHED = ${snapshot};`;
+  // 1. Injecter les données dans la balise dédiée — remplacement ciblé et fiable
+  src = src.replace(
+    /<script id="wiki-data">[\s\S]*?<\/script>/,
+    `<script id="wiki-data">window._WIKI_PUBLISHED = ${snapshot};<\/script>`
+  );
 
-  const src = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
-
-  // Remettre null pour la version locale
-  originalScript.textContent = 'window._WIKI_PUBLISHED = null;';
+  // 2. Supprimer les boutons réservés à l'édition
+  ['btn-export','btn-import-json','btn-export-json','btn-edit','btn-save','btn-cancel','btn-delete','mobile-menu-btn'].forEach(id => {
+    src = src.replace(new RegExp(`<button[^>]*id="${id}"[^>]*>[\\s\\S]*?<\\/button>`, 'g'), '');
+  });
+  src = src.replace(/<button[^>]*onclick="newPage\(\)"[^>]*>[\s\S]*?<\/button>/g, '');
+  src = src.replace(/<input[^>]*id="file-import"[^>]*>/g, '');
 
   // Télécharger le HTML
   dl(new Blob([src], {type:'text/html;charset=utf-8'}), 'index.html');
 
-  // Télécharger le JSON de sauvegarde
+  // Télécharger aussi le JSON de sauvegarde
   setTimeout(()=>{
     const data = { version:1, exported: new Date().toISOString(), pages };
     const date = new Date().toISOString().slice(0,10);
