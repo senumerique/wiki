@@ -2,7 +2,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Senutils — Wiki</title>
-<script id="wiki-data">window._WIKI_PUBLISHED = [{"id":"p1782578724317","title":"PowerShell - Administration système","tags":[],"date":"2026-06-27T16:51:43.600Z","body":"# Gestion des rôles et fonctionnalités\n\nInstaller .NET Framework 3.5 depuis les sources D:\\sources\\sxs (Lecteur monté à partir de l’iso sur le serveur cible)\n\n```\nInstall-WindowsFeature -Name NET-Framework-Features -Source D:\\sources\\sxs ```\n\nInstaller le rôle IIS\n\n```\nInstall-WindowsFeature -name Web-Server -IncludeManagementTools ```\n\n\n# Gestion des modules PowerShell\n\nTélécharger le module sur https://www.powershellgallery.com/ (Manual Downlaod)\nLe fichier télécharger sera au format .nupkg. Il faudra renommer le fichier en .zip\nIci je prendrai pour exemple le module ps2exe\nOuvrez un PowerShell en Administrateur.\n\n```\nExpand-Archive C:\\Users\\senumerique\\Downloads\\ps2exe.1.0.13.zip -DestinationPath C:\\Users\\senumerique\\Downloads\\ps2exe ```\n\n```\nImport-Module -Name C:\\Users\\senumerique\\Downloads\\ps2exe```\n\n```\nGet-Command -Module ps2exe```\n\n```\nCopy-Item -Recurse C:\\Users\\senumerique\\Downloads\\ps2exe \"C:\\Program Files\\WindowsPowerShell\\Modules\"```"},{"id":"p1782578495599","title":"Raccourcis Windows","tags":[],"date":"2026-06-27T16:41:49.453Z","body":"# Raccourcis Windows\n\n| Raccourcis | Commentaires |\n|---|---|\n| Windows + I | Ouvrir les paramètres Windows 10 /11  |\n| Windows + Ctrl + D | Créer un nouveau bureau |\n| Windows + M | Fermer toutes les fenêtres |\n| Windows + V | Historique Copié / Coller |\n| Ctrl + Maj + N | Créer un nouveau dossier |\n| Ctrl + Shift + Echap | Ouvrir le gestionnaire des tâches |\n| Windows + Flèche Haut | Agrandir la fenêtre |\n| Windows + Flèche Bas | Réduire la fenêtre |\n| Windows + Flèche Gauche | Déplacer la fenêtre à gauche |\n| Windows + Flèche Droite | Déplacer la fenêtre à droite |\n| Ctrl + Shift + Alt + Win + W | Ouvrir Microsoft Office Word |\n| Ctrl + Shift + Alt + Win + X | Ouvrir Microsoft Office Excel |\n| Ctrl + Shift + Alt + Win + P | Ouvrir Microsoft Office PowerPoint |\n| Ctrl + Shift + Alt + Win + O | Ouvrir Microsoft Office Outlook |\n| Ctrl + Shift + Alt + Win + T | Ouvrir Microsoft Teams |\n| Ctrl + Shift + Alt + Win + N | Ouvrir Microsoft OneNote |\n\n# Console MMC Windows\n\n| MMC | Descriptions |\n|---|---|\n| rsop.msc | Collecter des informations de stratégie d’ordinateur (Resultant Set of Policy) |\n| certmgr.msc | Gestion des Certificats |\n| comexp.msc | Services des composants (Observateur Evènements-Services) |\n| compmgmt.msc | Gestion de l’ordinateur |\n| devmgmt.msc | Gestionnaire de périphériques |\n| diskmgmt.msc | Gestion des disques |\n| eventvwr.msc | Observateur d’événements |\n| fsmgmt.msc | Dossiers partagés |\n| perfmon.msc | Moniteur de fiabilité et de performances |\n| printmanagement.msc | Gestion de l’impression |\n| services.msc | Services |\n| taskschd.msc | Planificateur de tâches |\n| wf.msc | Pare-feu Windows avec fonctions avancées de sécurité |\n| wmimgmt.msc | Racine de la console/Contrôle WMI |\n\n"},{"id":"p1782514631183","title":"PowerShell - Audit système","tags":[],"date":"2026-06-26T22:58:37.162Z","body":"# PowerShell - Audit système\n\nObtenir sa version de PowerShell\n\n```\n$PSVersionTable ```\n\nObtenir la version de Windows. \n\n```\n(Get-WmiObject -class Win32_OperatingSystem).Caption ```"},{"id":"p1782512437334","title":"PowerShell - Dépannage système","tags":[],"date":"2026-06-26T23:01:01.399Z","body":"# PowerShell - Dépannage système\n\n## Commande de base pour le scan et la réparation système.\n\nVérificateur de fichiers système pour analyser Windows et restaurer les fichiers \n\n```\nsfc /scannow ```\n\nAnalysez l’image Windows pour déterminer si elle est endommagée.\n\n```\nDISM /Online /Cleanup-Image /ScanHealth```\n\nVérifie si l’image Windows est saine, réparable ou non réparable.\n\n```\nDism /Online /Cleanup-Image /CheckHealth```\n\nRéparer les fichiers système de Windows\n\n```\nDISM /Online /Cleanup-Image /RestoreHealth``` \n\nVérifie l’intégrité et répare les erreurs disque (analyse profonde) - Reboot nécessaire !\n\n```\nchkdsk c: /F /R ```"}];</script>
+<script id="wiki-data">window._WIKI_PUBLISHED = [{"id":"p1782595254718","title":"PowerShell - Internet Information Services (IIS)","tags":[],"date":"2026-06-27T21:22:46.382Z","body":"# PowerShell - Internet Information Services (IIS)\n\nInstallation du rôle IIS.\n\n```\nInstall-WindowsFeature -name Web-Server -IncludeManagementTools```\n\nConfigurer IIS pour démarrer automatiquement \n\n```\nSet-Service -name W3SVC -startupType Automatic```\n\nCréation du dossier du site www\n\n```\nNew-Item -ItemType Directory -Name 'www' -Path 'C:\\'```\n\nInstallation du module IISAdministration \n\n```\nInstall-Module -Name 'IISAdministration' ```\n\n  \n\nCréer le site Web dans IIS\n\n```\nNew-IISSite -Name 'www' -PhysicalPath 'C:\\www\\' -BindingInformation \"*:443:\" ```\n\n  \nArrêt du site\n\n```\nStop-IISSite -Name \"www\" ```\n\nDémarrage du site\n\n```\nStart-IISSite -Name \"www\" ```\n\nObtenir les infos du site\n\n```\n Get-IISSite -Name \"www\" ```"},{"id":"p1782578724317","title":"PowerShell - Administration système","tags":[],"date":"2026-06-27T21:23:59.532Z","body":"# OS\n\nRenommer la machine en « SRV-DATA » et redémarrer l’hôte \n\n```\nRename-Computer -NewName SRV-DATA -Force Restart-Computer```\n\nActiver Windows\n\n```\nSet-WindowsProductKey -ProductKey XXXXX-XXXXX-XXXXX-XXXXX-XXXXX```\n\n# Remote connection\n\nSe connecter en SSH sur le serveur srv-redhat avec l’utilisateur senumerique (à condition que SSH soit configuré sur ce serveur et que l’utilisateur ai les droits. \n\n```\nssh senumerique@srv-redhat.domaine.local ```\n\nSe connecter à la console PowerShell du serveur SRV-DATA\n\n```\nEnter-PSSession -ComputerName SRV-DATA```\n\n\n\n# Gestion des rôles et fonctionnalités\n\nInstaller .NET Framework 3.5 depuis les sources D:\\sources\\sxs (Lecteur monté à partir de l’iso sur le serveur cible)\n\n```\nInstall-WindowsFeature -Name NET-Framework-Features -Source D:\\sources\\sxs ```\n\nInstaller le rôle IIS\n\n```\nInstall-WindowsFeature -name Web-Server -IncludeManagementTools ```\n\n\n# Gestion des modules PowerShell\n\nTélécharger le module sur https://www.powershellgallery.com/ (Manual Downlaod)\nLe fichier télécharger sera au format .nupkg. Il faudra renommer le fichier en .zip\nIci je prendrai pour exemple le module ps2exe\nOuvrez un PowerShell en Administrateur.\n\n```\nExpand-Archive C:\\Users\\senumerique\\Downloads\\ps2exe.1.0.13.zip -DestinationPath C:\\Users\\senumerique\\Downloads\\ps2exe ```\n\n```\nImport-Module -Name C:\\Users\\senumerique\\Downloads\\ps2exe```\n\n```\nGet-Command -Module ps2exe```\n\n```\nCopy-Item -Recurse C:\\Users\\senumerique\\Downloads\\ps2exe \"C:\\Program Files\\WindowsPowerShell\\Modules\"```"},{"id":"p1782578495599","title":"Raccourcis Windows","tags":[],"date":"2026-06-27T16:41:49.453Z","body":"# Raccourcis Windows\n\n| Raccourcis | Commentaires |\n|---|---|\n| Windows + I | Ouvrir les paramètres Windows 10 /11  |\n| Windows + Ctrl + D | Créer un nouveau bureau |\n| Windows + M | Fermer toutes les fenêtres |\n| Windows + V | Historique Copié / Coller |\n| Ctrl + Maj + N | Créer un nouveau dossier |\n| Ctrl + Shift + Echap | Ouvrir le gestionnaire des tâches |\n| Windows + Flèche Haut | Agrandir la fenêtre |\n| Windows + Flèche Bas | Réduire la fenêtre |\n| Windows + Flèche Gauche | Déplacer la fenêtre à gauche |\n| Windows + Flèche Droite | Déplacer la fenêtre à droite |\n| Ctrl + Shift + Alt + Win + W | Ouvrir Microsoft Office Word |\n| Ctrl + Shift + Alt + Win + X | Ouvrir Microsoft Office Excel |\n| Ctrl + Shift + Alt + Win + P | Ouvrir Microsoft Office PowerPoint |\n| Ctrl + Shift + Alt + Win + O | Ouvrir Microsoft Office Outlook |\n| Ctrl + Shift + Alt + Win + T | Ouvrir Microsoft Teams |\n| Ctrl + Shift + Alt + Win + N | Ouvrir Microsoft OneNote |\n\n# Console MMC Windows\n\n| MMC | Descriptions |\n|---|---|\n| rsop.msc | Collecter des informations de stratégie d’ordinateur (Resultant Set of Policy) |\n| certmgr.msc | Gestion des Certificats |\n| comexp.msc | Services des composants (Observateur Evènements-Services) |\n| compmgmt.msc | Gestion de l’ordinateur |\n| devmgmt.msc | Gestionnaire de périphériques |\n| diskmgmt.msc | Gestion des disques |\n| eventvwr.msc | Observateur d’événements |\n| fsmgmt.msc | Dossiers partagés |\n| perfmon.msc | Moniteur de fiabilité et de performances |\n| printmanagement.msc | Gestion de l’impression |\n| services.msc | Services |\n| taskschd.msc | Planificateur de tâches |\n| wf.msc | Pare-feu Windows avec fonctions avancées de sécurité |\n| wmimgmt.msc | Racine de la console/Contrôle WMI |\n\n"},{"id":"p1782514631183","title":"PowerShell - Audit système","tags":[],"date":"2026-06-26T22:58:37.162Z","body":"# PowerShell - Audit système\n\nObtenir sa version de PowerShell\n\n```\n$PSVersionTable ```\n\nObtenir la version de Windows. \n\n```\n(Get-WmiObject -class Win32_OperatingSystem).Caption ```"},{"id":"p1782512437334","title":"PowerShell - Dépannage système","tags":[],"date":"2026-06-27T21:16:36.931Z","body":"# Vérifications et réparations\n\n## Commande de base pour le scan et la réparation système.\n\nVérificateur de fichiers système pour analyser Windows et restaurer les fichiers \n\n```\nsfc /scannow ```\n\nAnalysez l’image Windows pour déterminer si elle est endommagée.\n\n```\nDISM /Online /Cleanup-Image /ScanHealth```\n\nVérifie si l’image Windows est saine, réparable ou non réparable.\n\n```\nDism /Online /Cleanup-Image /CheckHealth```\n\nRéparer les fichiers système de Windows\n\n```\nDISM /Online /Cleanup-Image /RestoreHealth``` \n\nVérifie l’intégrité et répare les erreurs disque (analyse profonde) - Reboot nécessaire !\n\n```\nchkdsk c: /F /R ```\n\n# Nettoyage\n\nSupprime automatiquement les composants (anciennes versions, inutilisés) \n\n```\nDism.exe /online /Cleanup-Image /StartComponentCleanup```"}];</script>
 <style>
   :root {
     --bg: #0d1117;
@@ -592,15 +592,7 @@
   <div id="search-wrap">
     <span id="search-icon">🔍</span>
     <input type="text" id="search" placeholder="Rechercher..." autocomplete="off" oninput="doSearch(this.value)" onblur="setTimeout(()=&gt;closeSearch(),150)">
-    <div id="search-results" class=""><div class="search-item" onmousedown="openPage('p1782512437334');closeSearch()">
-      <div class="s-title">PowerShell - Dépannage système</div>
-      <div class="s-excerpt"> restaurer les fichiers 
-
-
-<span class="s-match">sfc</span> /scannow 
-
-Analysez l’image Windows pour déterminer s</div>
-    </div></div>
+    <div id="search-results"></div>
   </div>
   <div class="topbar-actions">
     
@@ -619,7 +611,10 @@ Analysez l’image Windows pour déterminer s</div>
       <h3>Catégories</h3>
       <div id="tag-filters"><button class="tag-filter active" onclick="setTagFilter(null)">Tout</button></div>
     </div>
-    <div id="pages-list"><div class="page-item" onclick="openPage('p1782578724317')">
+    <div id="pages-list"><div class="page-item active" onclick="openPage('p1782595254718')">
+      <div class="pi-title">PowerShell - Internet Information Services (IIS)</div>
+      <div class="pi-meta"><span>27 juin</span></div>
+    </div><div class="page-item" onclick="openPage('p1782578724317')">
       <div class="pi-title">PowerShell - Administration système</div>
       <div class="pi-meta"><span>27 juin</span></div>
     </div><div class="page-item" onclick="openPage('p1782578495599')">
@@ -628,7 +623,7 @@ Analysez l’image Windows pour déterminer s</div>
     </div><div class="page-item" onclick="openPage('p1782514631183')">
       <div class="pi-title">PowerShell - Audit système</div>
       <div class="pi-meta"><span>27 juin</span></div>
-    </div><div class="page-item active" onclick="openPage('p1782512437334')">
+    </div><div class="page-item" onclick="openPage('p1782512437334')">
       <div class="pi-title">PowerShell - Dépannage système</div>
       <div class="pi-meta"><span>27 juin</span></div>
     </div></div>
@@ -641,7 +636,7 @@ Analysez l’image Windows pour déterminer s</div>
       <!-- PAGE HEADER -->
       <div id="page-header" style="">
         <div id="page-title-wrap">
-          <div id="page-title" style="">PowerShell - Dépannage système</div>
+          <div id="page-title">PowerShell - Internet Information Services (IIS)</div>
           <input type="text" id="page-title-input" placeholder="Titre de la page…" style="display: none;">
           <div id="page-actions">
             
@@ -659,28 +654,34 @@ Analysez l’image Windows pour déterminer s</div>
       <!-- VIEW / EDITOR -->
       <div id="view-edit-wrap">
         <!-- VIEW MODE -->
-        <div id="page-view" style="">
+        <div id="page-view">
           <div id="empty-state" style="display: none;">
             <div class="es-icon">📄</div>
             <h2>Votre wiki personnel</h2>
             <p>Sélectionnez une page dans la barre latérale, ou créez votre première note avec <strong>+ Nouvelle page</strong>.</p>
           </div>
-          <div class="wiki-content" id="wiki-body" style=""><h1 id="powershell-d-pannage-syst-me">PowerShell - Dépannage système</h1>
-<h2 id="commande-de-base-pour-le-scan-et-la-r-paration-syst-me-">Commande de base pour le scan et la réparation système.</h2>
-<p>Vérificateur de fichiers système pour analyser Windows et restaurer les fichiers</p>
-<pre><code>sfc /scannow</code></pre>
-<p>Analysez l’image Windows pour déterminer si elle est endommagée.</p>
-<pre><code>DISM /Online /Cleanup-Image /ScanHealth</code></pre>
-<p>Vérifie si l’image Windows est saine, réparable ou non réparable.</p>
-<pre><code>Dism /Online /Cleanup-Image /CheckHealth</code></pre>
-<p>Réparer les fichiers système de Windows</p>
-<pre><code>DISM /Online /Cleanup-Image /RestoreHealth</code></pre>
-<p>Vérifie l’intégrité et répare les erreurs disque (analyse profonde) - Reboot nécessaire !</p>
-<pre><code>chkdsk c: /F /R</code></pre></div>
+          <div class="wiki-content" id="wiki-body" style=""><h1 id="powershell-internet-information-services-iis-">PowerShell - Internet Information Services (IIS)</h1>
+<p>Installation du rôle IIS.</p>
+<pre><code>Install-WindowsFeature -name Web-Server -IncludeManagementTools</code></pre>
+<p>Configurer IIS pour démarrer automatiquement</p>
+<pre><code>Set-Service -name W3SVC -startupType Automatic</code></pre>
+<p>Création du dossier du site www</p>
+<pre><code>New-Item -ItemType Directory -Name 'www' -Path 'C:\'</code></pre>
+<p>Installation du module IISAdministration</p>
+<pre><code>Install-Module -Name 'IISAdministration'</code></pre>
+
+<p>Créer le site Web dans IIS</p>
+<pre><code>New-IISSite -Name 'www' -PhysicalPath 'C:\www\' -BindingInformation "*:443:"</code></pre>
+<p>Arrêt du site</p>
+<pre><code>Stop-IISSite -Name "www"</code></pre>
+<p>Démarrage du site</p>
+<pre><code>Start-IISSite -Name "www"</code></pre>
+<p>Obtenir les infos du site</p>
+<pre><code>Get-IISSite -Name "www"</code></pre></div>
         </div>
 
         <!-- EDITOR MODE -->
-        <div id="editor-wrap" style="display: none; flex-direction: column;">
+        <div id="editor-wrap" style="display: none;">
           <div id="editor-toolbar">
             <button class="ed-btn" onclick="edInsert('# ','')">H1</button>
             <button class="ed-btn" onclick="edInsert('## ','')">H2</button>
@@ -714,16 +715,14 @@ Analysez l’image Windows pour déterminer s</div>
     <div id="toc-panel">
       <h4>Sur cette page</h4>
       <div id="toc-items">
-    <a class="toc-item toc-h1" onclick="scrollTo('powershell-d-pannage-syst-me')" title="PowerShell - Dépannage système">PowerShell - Dépannage système</a>
-  
-    <a class="toc-item toc-h2" onclick="scrollTo('commande-de-base-pour-le-scan-et-la-r-paration-syst-me-')" title="Commande de base pour le scan et la réparation système.">Commande de base pour le scan et la réparation système.</a>
+    <a class="toc-item toc-h1" onclick="scrollTo('powershell-internet-information-services-iis-')" title="PowerShell - Internet Information Services (IIS)">PowerShell - Internet Information Services (IIS)</a>
   </div>
     </div>
   </div>
 </div>
 
 <!-- MODAL -->
-<div class="modal-overlay" id="modal" style="display: none;" onclick="if(event.target===this)closeModal()">
+<div class="modal-overlay" id="modal" style="display:none" onclick="if(event.target===this)closeModal()">
   <div class="modal">
     <h3 id="modal-title">Nouvelle page</h3>
     <p id="modal-desc">Choisissez un titre pour commencer.</p>
@@ -736,7 +735,7 @@ Analysez l’image Windows pour déterminer s</div>
 </div>
 
 <!-- NOTIF -->
-<div id="notif" class="">Page supprimée</div>
+<div id="notif"></div>
 
 <script>
 // ---- DATA ----
