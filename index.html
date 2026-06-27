@@ -580,7 +580,7 @@
 
 <!-- TOP BAR -->
 <div id="topbar">
-  <button class="btn" id="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Menu">☰</button>
+  
   <div class="logo" style="display:flex;align-items:center;gap:8px">
     <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect x="1" y="1" width="9" height="9" rx="2" fill="#58a6ff" opacity="0.9"></rect>
@@ -596,12 +596,12 @@
     <div id="search-results"></div>
   </div>
   <div class="topbar-actions">
-    <button class="btn" id="btn-import-json" onclick="importJSON()" title="Restaurer depuis une sauvegarde JSON">📥 <span>Importer</span></button>
-    <button class="btn" id="btn-export-json" onclick="exportJSON()" title="Sauvegarder les pages en JSON">💾 <span>Sauvegarde</span></button>
-    <button class="btn" id="btn-export" onclick="exportStatic()" title="Publier en HTML + télécharger la sauvegarde JSON">📤 <span>Publier</span></button>
-    <button class="btn primary" onclick="newPage()"><span>+ Nouvelle page</span></button>
+    
+    
+    
+    
   </div>
-  <input type="file" id="file-import" accept=".json" style="display:none" onchange="handleImport(event)">
+  
 </div>
 
 <!-- LAYOUT -->
@@ -624,7 +624,7 @@
     </div><div class="page-item" onclick="openPage('p1782514631183')">
       <div class="pi-title">PowerShell - Audit système</div>
       <div class="pi-meta"><span>27 juin</span></div>
-    </div><div class="page-item active" onclick="openPage('p1782512437334')">
+    </div><div class="page-item" onclick="openPage('p1782512437334')">
       <div class="pi-title">PowerShell - Dépannage système</div>
       <div class="pi-meta"><span>27 juin</span></div>
     </div></div>
@@ -635,19 +635,19 @@
     <!-- CONTENT AREA -->
     <div id="content-area">
       <!-- PAGE HEADER -->
-      <div id="page-header" style="">
+      <div id="page-header" style="display:none">
         <div id="page-title-wrap">
-          <div id="page-title">PowerShell - Dépannage système</div>
-          <input type="text" id="page-title-input" placeholder="Titre de la page…" style="display: none;">
+          <div id="page-title"></div>
+          <input type="text" id="page-title-input" placeholder="Titre de la page…">
           <div id="page-actions">
-            <button class="btn" id="btn-edit" onclick="enterEdit()">✏️ <span>Modifier</span></button>
-            <button class="btn" id="btn-save" onclick="savePage()" style="display:none">💾 <span>Enregistrer</span></button>
-            <button class="btn" id="btn-cancel" onclick="cancelEdit()" style="display:none">✕</button>
-            <button class="btn danger" id="btn-delete" onclick="deletePage()">🗑</button>
+            
+            
+            
+            
           </div>
         </div>
         <div id="page-meta">
-          <span id="page-date">27 juin 2026</span>
+          <span id="page-date"></span>
           <span id="page-tags"></span>
         </div>
       </div>
@@ -656,30 +656,16 @@
       <div id="view-edit-wrap">
         <!-- VIEW MODE -->
         <div id="page-view">
-          <div id="empty-state" style="display: none;">
+          <div id="empty-state">
             <div class="es-icon">📄</div>
             <h2>Votre wiki personnel</h2>
             <p>Sélectionnez une page dans la barre latérale, ou créez votre première note avec <strong>+ Nouvelle page</strong>.</p>
           </div>
-          <div class="wiki-content" id="wiki-body" style=""><h1 id="v-rifications-et-r-parations">Vérifications et réparations</h1>
-<h2 id="commande-de-base-pour-le-scan-et-la-r-paration-syst-me-">Commande de base pour le scan et la réparation système.</h2>
-<p>Vérificateur de fichiers système pour analyser Windows et restaurer les fichiers</p>
-<pre><code>sfc /scannow</code></pre>
-<p>Analysez l’image Windows pour déterminer si elle est endommagée.</p>
-<pre><code>DISM /Online /Cleanup-Image /ScanHealth</code></pre>
-<p>Vérifie si l’image Windows est saine, réparable ou non réparable.</p>
-<pre><code>Dism /Online /Cleanup-Image /CheckHealth</code></pre>
-<p>Réparer les fichiers système de Windows</p>
-<pre><code>DISM /Online /Cleanup-Image /RestoreHealth</code></pre>
-<p>Vérifie l’intégrité et répare les erreurs disque (analyse profonde) - Reboot nécessaire !</p>
-<pre><code>chkdsk c: /F /R</code></pre>
-<h1 id="nettoyage">Nettoyage</h1>
-<p>Supprime automatiquement les composants (anciennes versions, inutilisés)</p>
-<pre><code>Dism.exe /online /Cleanup-Image /StartComponentCleanup</code></pre></div>
+          <div class="wiki-content" id="wiki-body" style="display:none"></div>
         </div>
 
         <!-- EDITOR MODE -->
-        <div id="editor-wrap" style="display: none;">
+        <div id="editor-wrap">
           <div id="editor-toolbar">
             <button class="ed-btn" onclick="edInsert('# ','')">H1</button>
             <button class="ed-btn" onclick="edInsert('## ','')">H2</button>
@@ -701,7 +687,7 @@
             <button class="ed-btn" onclick="edInsert('::: warn\n',':::')">⚠️ Alerte</button>
           </div>
           <textarea id="editor" spellcheck="true" placeholder="Écrivez en Markdown…"></textarea>
-          <div id="tag-editor" class="">
+          <div id="tag-editor" class="visible">
             <label>Tags :</label>
             <input type="text" id="tag-input" placeholder="dev, notes, recherche…">
           </div>
@@ -712,13 +698,7 @@
     <!-- TOC PANEL -->
     <div id="toc-panel">
       <h4>Sur cette page</h4>
-      <div id="toc-items">
-    <a class="toc-item toc-h1" onclick="scrollTo('v-rifications-et-r-parations')" title="Vérifications et réparations">Vérifications et réparations</a>
-  
-    <a class="toc-item toc-h2" onclick="scrollTo('commande-de-base-pour-le-scan-et-la-r-paration-syst-me-')" title="Commande de base pour le scan et la réparation système.">Commande de base pour le scan et la réparation système.</a>
-  
-    <a class="toc-item toc-h1" onclick="scrollTo('nettoyage')" title="Nettoyage">Nettoyage</a>
-  </div>
+      <div id="toc-items"></div>
     </div>
   </div>
 </div>
@@ -1247,20 +1227,34 @@ function handleImport(e){
 function exportStatic(){
   const snapshot = JSON.stringify(pages);
 
-  // Construire le HTML publié manuellement sans passer par outerHTML
-  // On repart du source original stocké dans la page
-  const originalScript = document.getElementById('wiki-data');
-  originalScript.textContent = `window._WIKI_PUBLISHED = ${snapshot};`;
+  // 1. Injecter les données
+  const dataScript = document.getElementById('wiki-data');
+  dataScript.textContent = `window._WIKI_PUBLISHED = ${snapshot};`;
 
+  // 2. Retirer du DOM les éléments réservés à l'édition
+  const toRemove = ['btn-export','btn-import-json','btn-export-json',
+                    'btn-edit','btn-save','btn-cancel','btn-delete',
+                    'mobile-menu-btn','file-import'];
+  const removed = [];
+  toRemove.forEach(id => {
+    const el = document.getElementById(id);
+    if(el){ removed.push({parent: el.parentNode, next: el.nextSibling, el}); el.remove(); }
+  });
+  // Retirer aussi le bouton Nouvelle page (pas d'id, on le cherche par contenu)
+  const newPageBtn = [...document.querySelectorAll('button')].find(b => b.textContent.includes('Nouvelle page'));
+  if(newPageBtn){ removed.push({parent: newPageBtn.parentNode, next: newPageBtn.nextSibling, el: newPageBtn}); newPageBtn.remove(); }
+
+  // 3. Capturer le HTML propre
   const src = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
 
-  // Remettre null pour la version locale
-  originalScript.textContent = 'window._WIKI_PUBLISHED = null;';
+  // 4. Tout remettre en place pour la version locale
+  dataScript.textContent = 'window._WIKI_PUBLISHED = null;';
+  removed.forEach(({parent, next, el}) => parent.insertBefore(el, next));
 
-  // Télécharger le HTML
+  // 5. Télécharger le HTML publié
   dl(new Blob([src], {type:'text/html;charset=utf-8'}), 'index.html');
 
-  // Télécharger le JSON de sauvegarde
+  // 6. Télécharger le JSON de sauvegarde
   setTimeout(()=>{
     const data = { version:1, exported: new Date().toISOString(), pages };
     const date = new Date().toISOString().slice(0,10);
